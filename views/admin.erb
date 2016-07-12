@@ -18,6 +18,7 @@
         <%= patient.doctor_id %>
       <% else %>
       <form action="/admin/assign" method="post">
+        <input id="patient_id" name="patient_id" type="hidden" value="<%=patient.patient_id() %>">
         <select class="doctors" name="doctors">
           <% @doctors.each do |doctor| %>
             <option value="<%= doctor.doctor_id %>"><%= doctor.last_name %>, <%= doctor.first_name %></option>
@@ -34,4 +35,6 @@
 
 
 <a href="/doctor/new" id="add_doctor"><button type="button" name="add_doctor">Add Doctor</button></a>
-<a href="/patient/new" id="add_patient"><button type="button" name="add_patient">Add Patient</button></a>
+<% if @doctors != [] %>
+  <a href="/patient/new" id="add_patient"><button type="button" name="add_patient">Add Patient</button></a>
+<% end %>
