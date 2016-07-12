@@ -1,0 +1,18 @@
+<h1>Patient</h1>
+<form action="/doctors/specialty" method="post">
+  <label for="specialty">Specialty</label>
+  <select class="specialty" name="specialty">
+    <option value="1">Pediatrics</option>
+    <option value="2">Family Medicine</option>
+    <option value="3">Internal Medicine</option>
+    <option value="4">Obstetrics</option>
+    <option value="5">Plastic Surgery</option>
+  </select>
+  <button type="submit" name="submit">Find Doctors</button>
+</form>
+
+<ul>
+  <% @doctors.each do |doctor| %>
+  <li><%= doctor.last_name %>, <%= doctor.first_name %></li>
+  <% end %>
+</ul>

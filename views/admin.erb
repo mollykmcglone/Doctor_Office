@@ -1,0 +1,37 @@
+<h1>Admin</h1>
+<% if @doctors != [] %>
+  <h3>Doctors</h3>
+  <ul>
+    <% @doctors.each do |doctor| %>
+    <li><%= doctor.last_name %>, <%= doctor.first_name %>: <%= doctor.count %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if @patients != [] %>
+  <h3>Patients</h3>
+  <ul>
+    <% @patients.each do |patient| %>
+    <li>
+      <%= patient.last_name %>, <%= patient.first_name %>
+      <% if patient.doctor_id %>
+        <%= patient.doctor_id %>
+      <% else %>
+      <form action="/admin/assign" method="post">
+        <select class="doctors" name="doctors">
+          <% @doctors.each do |doctor| %>
+            <option value="<%= doctor.doctor_id %>"><%= doctor.last_name %>, <%= doctor.first_name %></option>
+          <% end %>
+        </select>
+        <button type="submit" name="assign_doctor" class="btn-sm">Assign Doctor</button>
+      </form>
+      <% end %>
+    </li>
+    <% end %>
+  </ul>
+<% end %>
+
+
+
+<a href="/doctor/new" id="add_doctor"><button type="button" name="add_doctor">Add Doctor</button></a>
+<a href="/patient/new" id="add_patient"><button type="button" name="add_patient">Add Patient</button></a>

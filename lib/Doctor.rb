@@ -42,4 +42,8 @@ class Doctor
     end
     doctors
   end
+
+  define_method(:count) do
+    DB.exec("SELECT COUNT(*) FROM patients WHERE doctor_id = #{@doctor_id}").to_i
+  end
 end
