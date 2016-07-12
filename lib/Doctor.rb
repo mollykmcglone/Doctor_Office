@@ -31,7 +31,7 @@ class Doctor
   end
 
   define_singleton_method(:find) do |specialty_id|
-    returned_doctors = DB.exec("SELECT * FROM doctors WHERE specialty_id = #{specialty_id}")
+    returned_doctors = DB.exec("SELECT * FROM doctors WHERE specialty_id = #{specialty_id};")
     doctors = []
     returned_doctors.each do |doctor|
       first_name = doctor['first_name']
@@ -43,7 +43,17 @@ class Doctor
     doctors
   end
 
+  define_singleton_method(:find_by_doctor_id) do |doctor_id|
+    returned_doctor = DB.exec("SELECT * FROM doctors WHERE doctor_id = #{doctor_id};").first()
+    # binding.pry
+    first_name = returned_doctor['first_name']
+    last_name = returned_doctor['last_name']
+    doctor_id = returned_doctor['doctor_id'].to_i
+    specialty_id = returned_doctor['specialty_id'].to_i
+    doctor = Doctor.new({first_name: first_name, last_name: last_name, doctor_id: doctor_id, specialty_id: specialty_id})
+  end
+
   define_method(:count) do
-    DB.exec("SELECT COUNT(*) FROM patients WHERE doctor_id = #{@doctor_id}").first['count']
+    DB.exec("SELECT COUNT(*) FROM patients WHERE doctor_id = #{@doctor_id};").first['count']
   end
 end

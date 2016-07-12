@@ -33,12 +33,12 @@ class Patient
   end
 
   define_method(:assign) do |doctor_id|
-    result = DB.exec("UPDATE patients SET doctor_id = #{doctor_id} WHERE patient_id = #{@patient_id} RETURNING doctor_id")
+    result = DB.exec("UPDATE patients SET doctor_id = #{doctor_id} WHERE patient_id = #{@patient_id} RETURNING doctor_id;")
     @doctor_id = result.first['doctor_id'].to_i
   end
 
   define_singleton_method(:find) do |doctor_id|
-    returned_patients = DB.exec("SELECT * FROM patients WHERE doctor_id = #{doctor_id}")
+    returned_patients = DB.exec("SELECT * FROM patients WHERE doctor_id = #{doctor_id};")
     patients = []
     returned_patients.each do |patient|
       patient_id = patient['patient_id'].to_i
@@ -49,5 +49,15 @@ class Patient
       patients.push(Patient.new({patient_id: patient_id, first_name: first_name, last_name: last_name, doctor_id: doctor_id, birthdate: birthdate}))
     end
     patients
+  end
+
+  define_singleton_method(:find_by_patient_id) do |patient_id|
+    returned_patient = DB.exec("SELECT * FROM patients WHERE patient_id = #{patient_id};").first()
+    patient_id = returned_patient['patient_id'].to_i
+    first_name = returned_patient['first_name']
+    last_name = returned_patient['last_name']
+    doctor_id = returned_patient['doctor_id']
+    birthdate = returned_patient['birthdate']
+    patient= Patient.new({patient_id: patient_id, first_name: first_name, last_name: last_name, doctor_id: doctor_id, birthdate: birthdate})
   end
 end

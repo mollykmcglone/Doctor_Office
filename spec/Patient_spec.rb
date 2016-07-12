@@ -50,4 +50,15 @@ describe 'Patient' do
       expect(Patient.find(1)).to(eq([test_patient]))
     end
   end
+
+  describe '.find_by_patient_id' do
+    it "finds a patient with a given patient_id" do
+      test_patient = Patient.new({first_name: 'Test', last_name: 'Test', doctor_id: nil, birthdate: '2010-08-01'})
+      test_patient.save
+      expect(Patient.find_by_patient_id(test_patient.patient_id())).to(eq(test_patient))
+    end
+  end
+
+
+
 end

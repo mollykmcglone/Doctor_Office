@@ -11,7 +11,7 @@ get('/') do
   erb(:index)
 end
 
-pages = ['admin', 'doctors', 'patient']
+pages = ['admin', 'doctors']
 pages.each do |page|
   get('/' + page) do
     eval('@doctors = Doctor.all
@@ -20,6 +20,10 @@ pages.each do |page|
   end
 end
 
+get('/patient') do
+  @doctors = []
+  erb(:patient)
+end
 
 add = ['doctor', 'patient']
 add.each do |add|
@@ -45,9 +49,21 @@ post('/admin/patient') do
   erb(:admin)
 end
 
-post('admin/assign') do
+post('/admin/assign') do
+    @patient = Patient.find_by_patient_id(params['patient_id'])
     @patient.assign(params['doctors'])
     @patients = Patient.all
     @doctors = Doctor.all
   erb(:admin)
+end
+
+get('/doctor/:doctor_id') do
+  @doctor = Doctor.find_by_doctor_id(params['doctor_id'])
+  @patients = Patient.find(params['doctor_id'])
+  erb(:doctor)
+end
+
+post '/doctors/specialty' do
+  @doctors = Doctor.find(params['specialty'])
+  erb(:patient)
 end

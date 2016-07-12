@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>NoMethodError at &#x2F;admin&#x2F;doctor</title>
+  <title>PG::SyntaxError at &#x2F;doctor&#x2F;353</title>
 
   <script type="text/javascript">
   //<!--
@@ -122,16 +122,16 @@
     <div id="header">
       <img src="/__sinatra__/500.png" alt="application error" height="161" width="313" />
       <div id="summary">
-        <h1><strong>NoMethodError</strong> at <strong>&#x2F;admin&#x2F;doctor
+        <h1><strong>PG::SyntaxError</strong> at <strong>&#x2F;doctor&#x2F;353
           </strong></h1>
-        <h2>undefined method `to_i&#x27; for #&lt;PG::Result:0x007fef81185f38&gt;
-Did you mean?  to_s
-               to_h
-               to_a</h2>
+        <h2>ERROR:  syntax error at or near &quot;;&quot;
+LINE 1: SELECT * FROM doctors WHERE doctor_id = ;
+                                                ^
+</h2>
         <ul>
           <li class="first"><strong>file:</strong> <code>
             Doctor.rb</code></li>
-          <li><strong>location:</strong> <code>block in &lt;class:Doctor&gt;
+          <li><strong>location:</strong> <code>exec
             </code></li>
           <li class="last"><strong>line:
             </strong> 47</li>
@@ -160,7 +160,7 @@ Did you mean?  to_s
 
             <li class="frame-info app">
               <code>&#x2F;Users&#x2F;Guest&#x2F;Desktop&#x2F;Doctor&#x2F;lib&#x2F;Doctor.rb</code> in
-                <code><strong>block in &lt;class:Doctor&gt;</strong></code>
+                <code><strong>exec</strong></code>
             </li>
 
             <li class="code app">
@@ -187,7 +187,7 @@ Did you mean?  to_s
                 <li class="pre-context-line"><code>
 </code></li>
                 
-                <li class="pre-context-line"><code>  define_method(:count) do
+                <li class="pre-context-line"><code>  define_singleton_method(:find_by_doctor_id) do |doctor_id|
 </code></li>
                 
               </ol>
@@ -195,19 +195,34 @@ Did you mean?  to_s
 
               <ol start="47" class="context" id="1"
                   onclick="toggle(1);">
-                <li class="context-line" id="context-1"><code>    DB.exec(&quot;SELECT COUNT(*) FROM patients WHERE doctor_id = #{@doctor_id}&quot;).to_i</code></li>
+                <li class="context-line" id="context-1"><code>    returned_doctor = DB.exec(&quot;SELECT * FROM doctors WHERE doctor_id = #{doctor_id};&quot;).first()</code></li>
               </ol>
 
               
               <ol start="48" class="post-context"
                   id="post-1" onclick="toggle(1);">
                 
+                <li class="post-context-line"><code>    binding.pry
+</code></li>
+                
+                <li class="post-context-line"><code>    first_name = returned_doctor[&#x27;first_name&#x27;]
+</code></li>
+                
+                <li class="post-context-line"><code>    last_name = returned_doctor[&#x27;last_name&#x27;]
+</code></li>
+                
+                <li class="post-context-line"><code>    doctor_id = returned_doctor[&#x27;doctor_id&#x27;].to_i
+</code></li>
+                
+                <li class="post-context-line"><code>    specialty_id = returned_doctor[&#x27;specialty_id&#x27;].to_i
+</code></li>
+                
+                <li class="post-context-line"><code>    doctor = Doctor.new({first_name: first_name, last_name: last_name, doctor_id: doctor_id, specialty_id: specialty_id})
+</code></li>
+                
                 <li class="post-context-line"><code>  end
 </code></li>
                 
-                <li class="post-context-line"><code>end
-</code></li>
-                
               </ol>
               
               <div class="clear"></div>
@@ -220,576 +235,68 @@ Did you mean?  to_s
           
 
             <li class="frame-info app">
-              <code>&#x2F;Users&#x2F;Guest&#x2F;Desktop&#x2F;Doctor&#x2F;views&#x2F;admin.erb</code> in
-                <code><strong>block (2 levels) in singleton class</strong></code>
+              <code>&#x2F;Users&#x2F;Guest&#x2F;Desktop&#x2F;Doctor&#x2F;lib&#x2F;Doctor.rb</code> in
+                <code><strong>block in &lt;class:Doctor&gt;</strong></code>
             </li>
 
             <li class="code app">
               
-              <ol start="1"
+              <ol start="40"
                   class="pre-context" id="pre-2"
                   onclick="toggle(2);">
                 
-                <li class="pre-context-line"><code>&lt;h1&gt;Admin&lt;&#x2F;h1&gt;
+                <li class="pre-context-line"><code>      specialty_id = doctor[&#x27;specialty_id&#x27;].to_i
 </code></li>
                 
-                <li class="pre-context-line"><code>&lt;% if @doctors != [] %&gt;
-</code></li>
-                
-                <li class="pre-context-line"><code>  &lt;h3&gt;Doctors&lt;&#x2F;h3&gt;
-</code></li>
-                
-                <li class="pre-context-line"><code>  &lt;ul&gt;
-</code></li>
-                
-                <li class="pre-context-line"><code>    &lt;% @doctors.each do |doctor| %&gt;
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="6" class="context" id="2"
-                  onclick="toggle(2);">
-                <li class="context-line" id="context-2"><code>    &lt;li&gt;&lt;%= doctor.last_name %&gt;, &lt;%= doctor.first_name %&gt;: &lt;%= doctor.count %&gt;&lt;&#x2F;li&gt;</code></li>
-              </ol>
-
-              
-              <ol start="7" class="post-context"
-                  id="post-2" onclick="toggle(2);">
-                
-                <li class="post-context-line"><code>    &lt;% end %&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>  &lt;&#x2F;ul&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>&lt;% end %&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>&lt;% if @patients != [] %&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>  &lt;h3&gt;Patients&lt;&#x2F;h3&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>  &lt;ul&gt;
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info app">
-              <code>&#x2F;Users&#x2F;Guest&#x2F;Desktop&#x2F;Doctor&#x2F;views&#x2F;admin.erb</code> in
-                <code><strong>each</strong></code>
-            </li>
-
-            <li class="code app">
-              
-              <ol start="1"
-                  class="pre-context" id="pre-3"
-                  onclick="toggle(3);">
-                
-                <li class="pre-context-line"><code>&lt;h1&gt;Admin&lt;&#x2F;h1&gt;
-</code></li>
-                
-                <li class="pre-context-line"><code>&lt;% if @doctors != [] %&gt;
-</code></li>
-                
-                <li class="pre-context-line"><code>  &lt;h3&gt;Doctors&lt;&#x2F;h3&gt;
-</code></li>
-                
-                <li class="pre-context-line"><code>  &lt;ul&gt;
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="5" class="context" id="3"
-                  onclick="toggle(3);">
-                <li class="context-line" id="context-3"><code>    &lt;% @doctors.each do |doctor| %&gt;</code></li>
-              </ol>
-
-              
-              <ol start="6" class="post-context"
-                  id="post-3" onclick="toggle(3);">
-                
-                <li class="post-context-line"><code>    &lt;li&gt;&lt;%= doctor.last_name %&gt;, &lt;%= doctor.first_name %&gt;: &lt;%= doctor.count %&gt;&lt;&#x2F;li&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>    &lt;% end %&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>  &lt;&#x2F;ul&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>&lt;% end %&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>&lt;% if @patients != [] %&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>  &lt;h3&gt;Patients&lt;&#x2F;h3&gt;
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info app">
-              <code>&#x2F;Users&#x2F;Guest&#x2F;Desktop&#x2F;Doctor&#x2F;views&#x2F;admin.erb</code> in
-                <code><strong>block in singleton class</strong></code>
-            </li>
-
-            <li class="code app">
-              
-              <ol start="1"
-                  class="pre-context" id="pre-4"
-                  onclick="toggle(4);">
-                
-                <li class="pre-context-line"><code>&lt;h1&gt;Admin&lt;&#x2F;h1&gt;
-</code></li>
-                
-                <li class="pre-context-line"><code>&lt;% if @doctors != [] %&gt;
-</code></li>
-                
-                <li class="pre-context-line"><code>  &lt;h3&gt;Doctors&lt;&#x2F;h3&gt;
-</code></li>
-                
-                <li class="pre-context-line"><code>  &lt;ul&gt;
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="5" class="context" id="4"
-                  onclick="toggle(4);">
-                <li class="context-line" id="context-4"><code>    &lt;% @doctors.each do |doctor| %&gt;</code></li>
-              </ol>
-
-              
-              <ol start="6" class="post-context"
-                  id="post-4" onclick="toggle(4);">
-                
-                <li class="post-context-line"><code>    &lt;li&gt;&lt;%= doctor.last_name %&gt;, &lt;%= doctor.first_name %&gt;: &lt;%= doctor.count %&gt;&lt;&#x2F;li&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>    &lt;% end %&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>  &lt;&#x2F;ul&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>&lt;% end %&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>&lt;% if @patients != [] %&gt;
-</code></li>
-                
-                <li class="post-context-line"><code>  &lt;h3&gt;Patients&lt;&#x2F;h3&gt;
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info system">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;tilt-2.0.5&#x2F;lib&#x2F;tilt&#x2F;template.rb</code> in
-                <code><strong>call</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="160"
-                  class="pre-context" id="pre-5"
-                  onclick="toggle(5);">
-                
-                <li class="pre-context-line"><code>      locals_keys = locals.keys
-</code></li>
-                
-                <li class="pre-context-line"><code>      if SYMBOL_ARRAY_SORTABLE
-</code></li>
-                
-                <li class="pre-context-line"><code>        locals_keys.sort!
-</code></li>
-                
-                <li class="pre-context-line"><code>      else
-</code></li>
-                
-                <li class="pre-context-line"><code>        locals_keys.sort!{|x, y| x.to_s &lt;=&gt; y.to_s}
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>      method = compiled_method(locals_keys)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="167" class="context" id="5"
-                  onclick="toggle(5);">
-                <li class="context-line" id="context-5"><code>      method.bind(scope).call(locals, &amp;block)</code></li>
-              </ol>
-
-              
-              <ol start="168" class="post-context"
-                  id="post-5" onclick="toggle(5);">
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # Generates all template source by combining the preamble, template, and
-</code></li>
-                
-                <li class="post-context-line"><code>    # postamble and returns a two-tuple of the form: [source, offset], where
-</code></li>
-                
-                <li class="post-context-line"><code>    # source is the string containing (Ruby) source code for the template and
-</code></li>
-                
-                <li class="post-context-line"><code>    # offset is the integer line offset where line reporting should begin.
-</code></li>
-                
-                <li class="post-context-line"><code>    #
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info system">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;tilt-2.0.5&#x2F;lib&#x2F;tilt&#x2F;template.rb</code> in
-                <code><strong>evaluate</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="160"
-                  class="pre-context" id="pre-6"
-                  onclick="toggle(6);">
-                
-                <li class="pre-context-line"><code>      locals_keys = locals.keys
-</code></li>
-                
-                <li class="pre-context-line"><code>      if SYMBOL_ARRAY_SORTABLE
-</code></li>
-                
-                <li class="pre-context-line"><code>        locals_keys.sort!
-</code></li>
-                
-                <li class="pre-context-line"><code>      else
-</code></li>
-                
-                <li class="pre-context-line"><code>        locals_keys.sort!{|x, y| x.to_s &lt;=&gt; y.to_s}
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>      method = compiled_method(locals_keys)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="167" class="context" id="6"
-                  onclick="toggle(6);">
-                <li class="context-line" id="context-6"><code>      method.bind(scope).call(locals, &amp;block)</code></li>
-              </ol>
-
-              
-              <ol start="168" class="post-context"
-                  id="post-6" onclick="toggle(6);">
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # Generates all template source by combining the preamble, template, and
-</code></li>
-                
-                <li class="post-context-line"><code>    # postamble and returns a two-tuple of the form: [source, offset], where
-</code></li>
-                
-                <li class="post-context-line"><code>    # source is the string containing (Ruby) source code for the template and
-</code></li>
-                
-                <li class="post-context-line"><code>    # offset is the integer line offset where line reporting should begin.
-</code></li>
-                
-                <li class="post-context-line"><code>    #
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info system">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;tilt-2.0.5&#x2F;lib&#x2F;tilt&#x2F;template.rb</code> in
-                <code><strong>render</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="95"
-                  class="pre-context" id="pre-7"
-                  onclick="toggle(7);">
-                
-                <li class="pre-context-line"><code>    # Render the template in the given scope with the locals specified. If a
-</code></li>
-                
-                <li class="pre-context-line"><code>    # block is given, it is typically available within the template via
-</code></li>
-                
-                <li class="pre-context-line"><code>    # +yield+.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def render(scope=nil, locals={}, &amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>      scope ||= Object.new
-</code></li>
-                
-                <li class="pre-context-line"><code>      current_template = Thread.current[:tilt_current_template]
-</code></li>
-                
-                <li class="pre-context-line"><code>      Thread.current[:tilt_current_template] = self
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="102" class="context" id="7"
-                  onclick="toggle(7);">
-                <li class="context-line" id="context-7"><code>      evaluate(scope, locals || {}, &amp;block)</code></li>
-              </ol>
-
-              
-              <ol start="103" class="post-context"
-                  id="post-7" onclick="toggle(7);">
-                
-                <li class="post-context-line"><code>    ensure
-</code></li>
-                
-                <li class="post-context-line"><code>      Thread.current[:tilt_current_template] = current_template
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # The basename of the template file.
-</code></li>
-                
-                <li class="post-context-line"><code>    def basename(suffix=&#x27;&#x27;)
-</code></li>
-                
-                <li class="post-context-line"><code>      File.basename(file, suffix) if file
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>render</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="816"
-                  class="pre-context" id="pre-8"
-                  onclick="toggle(8);">
-                
-                <li class="pre-context-line"><code>      options[:default_encoding] ||= settings.default_encoding
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      # compile and render template
-</code></li>
-                
-                <li class="pre-context-line"><code>      begin
-</code></li>
-                
-                <li class="pre-context-line"><code>        layout_was      = @default_layout
-</code></li>
-                
-                <li class="pre-context-line"><code>        @default_layout = false
-</code></li>
-                
-                <li class="pre-context-line"><code>        template        = compile_template(engine, data, options, views)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="823" class="context" id="8"
-                  onclick="toggle(8);">
-                <li class="context-line" id="context-8"><code>        output          = template.render(scope, locals, &amp;block)</code></li>
-              </ol>
-
-              
-              <ol start="824" class="post-context"
-                  id="post-8" onclick="toggle(8);">
-                
-                <li class="post-context-line"><code>      ensure
-</code></li>
-                
-                <li class="post-context-line"><code>        @default_layout = layout_was
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      # render layout
-</code></li>
-                
-                <li class="post-context-line"><code>      if layout
-</code></li>
-                
-                <li class="post-context-line"><code>        options = options.merge(:views =&gt; views, :layout =&gt; false, :eat_errors =&gt; eat_errors, :scope =&gt; scope).
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>erb</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="660"
-                  class="pre-context" id="pre-9"
-                  onclick="toggle(9);">
-                
-                <li class="pre-context-line"><code>    def initialize
-</code></li>
-                
-                <li class="pre-context-line"><code>      super
-</code></li>
-                
-                <li class="pre-context-line"><code>      @default_layout = :layout
-</code></li>
-                
-                <li class="pre-context-line"><code>      @preferred_extension = nil
+                <li class="pre-context-line"><code>      doctors.push(Doctor.new({first_name: first_name, last_name: last_name, doctor_id: doctor_id, specialty_id: specialty_id}))
 </code></li>
                 
                 <li class="pre-context-line"><code>    end
 </code></li>
                 
+                <li class="pre-context-line"><code>    doctors
+</code></li>
+                
+                <li class="pre-context-line"><code>  end
+</code></li>
+                
                 <li class="pre-context-line"><code>
 </code></li>
                 
-                <li class="pre-context-line"><code>    def erb(template, options = {}, locals = {}, &amp;block)
+                <li class="pre-context-line"><code>  define_singleton_method(:find_by_doctor_id) do |doctor_id|
 </code></li>
                 
               </ol>
               
 
-              <ol start="667" class="context" id="9"
-                  onclick="toggle(9);">
-                <li class="context-line" id="context-9"><code>      render(:erb, template, options, locals, &amp;block)</code></li>
+              <ol start="47" class="context" id="2"
+                  onclick="toggle(2);">
+                <li class="context-line" id="context-2"><code>    returned_doctor = DB.exec(&quot;SELECT * FROM doctors WHERE doctor_id = #{doctor_id};&quot;).first()</code></li>
               </ol>
 
               
-              <ol start="668" class="post-context"
-                  id="post-9" onclick="toggle(9);">
+              <ol start="48" class="post-context"
+                  id="post-2" onclick="toggle(2);">
                 
-                <li class="post-context-line"><code>    end
+                <li class="post-context-line"><code>    binding.pry
 </code></li>
                 
-                <li class="post-context-line"><code>
+                <li class="post-context-line"><code>    first_name = returned_doctor[&#x27;first_name&#x27;]
 </code></li>
                 
-                <li class="post-context-line"><code>    def erubis(template, options = {}, locals = {})
+                <li class="post-context-line"><code>    last_name = returned_doctor[&#x27;last_name&#x27;]
 </code></li>
                 
-                <li class="post-context-line"><code>      warn &quot;Sinatra::Templates#erubis is deprecated and will be removed, use #erb instead.\n&quot; \
+                <li class="post-context-line"><code>    doctor_id = returned_doctor[&#x27;doctor_id&#x27;].to_i
 </code></li>
                 
-                <li class="post-context-line"><code>        &quot;If you have Erubis installed, it will be used automatically.&quot;
+                <li class="post-context-line"><code>    specialty_id = returned_doctor[&#x27;specialty_id&#x27;].to_i
 </code></li>
                 
-                <li class="post-context-line"><code>      render :erubis, template, options, locals
+                <li class="post-context-line"><code>    doctor = Doctor.new({first_name: first_name, last_name: last_name, doctor_id: doctor_id, specialty_id: specialty_id})
 </code></li>
                 
-                <li class="post-context-line"><code>    end
+                <li class="post-context-line"><code>  end
 </code></li>
                 
               </ol>
@@ -810,9 +317,21 @@ Did you mean?  to_s
 
             <li class="code app">
               
-              <ol start="30"
-                  class="pre-context" id="pre-10"
-                  onclick="toggle(10);">
+              <ol start="50"
+                  class="pre-context" id="pre-3"
+                  onclick="toggle(3);">
+                
+                <li class="pre-context-line"><code>    @patient.assign(params[&#x27;doctors&#x27;])
+</code></li>
+                
+                <li class="pre-context-line"><code>    @patients = Patient.all
+</code></li>
+                
+                <li class="pre-context-line"><code>    @doctors = Doctor.all
+</code></li>
+                
+                <li class="pre-context-line"><code>  erb(:admin)
+</code></li>
                 
                 <li class="pre-context-line"><code>end
 </code></li>
@@ -820,32 +339,26 @@ Did you mean?  to_s
                 <li class="pre-context-line"><code>
 </code></li>
                 
-                <li class="pre-context-line"><code>post(&#x27;&#x2F;admin&#x2F;doctor&#x27;) do
-</code></li>
-                
-                <li class="pre-context-line"><code>  @doctor = Doctor.new({first_name: params[&#x27;first_name&#x27;], last_name: params[&#x27;last_name&#x27;], doctor_id: nil, specialty_id: params[&#x27;specialty&#x27;]})
-</code></li>
-                
-                <li class="pre-context-line"><code>  @doctor.save
-</code></li>
-                
-                <li class="pre-context-line"><code>  @doctors = Doctor.all
-</code></li>
-                
-                <li class="pre-context-line"><code>  @patients = Patient.all
+                <li class="pre-context-line"><code>get(&#x27;&#x2F;doctor&#x2F;:doctor_id&#x27;) do
 </code></li>
                 
               </ol>
               
 
-              <ol start="37" class="context" id="10"
-                  onclick="toggle(10);">
-                <li class="context-line" id="context-10"><code>  erb(:admin)</code></li>
+              <ol start="57" class="context" id="3"
+                  onclick="toggle(3);">
+                <li class="context-line" id="context-3"><code>  @doctor = Doctor.find_by_doctor_id(@doctor_id)</code></li>
               </ol>
 
               
-              <ol start="38" class="post-context"
-                  id="post-10" onclick="toggle(10);">
+              <ol start="58" class="post-context"
+                  id="post-3" onclick="toggle(3);">
+                
+                <li class="post-context-line"><code>  @patients = Patient.find(@doctor_id)
+</code></li>
+                
+                <li class="post-context-line"><code>  erb(:doctor)
+</code></li>
                 
                 <li class="post-context-line"><code>end
 </code></li>
@@ -869,8 +382,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="1604"
-                  class="pre-context" id="pre-11"
-                  onclick="toggle(11);">
+                  class="pre-context" id="pre-4"
+                  onclick="toggle(4);">
                 
                 <li class="pre-context-line"><code>        method_name             = &quot;#{verb} #{path}&quot;
 </code></li>
@@ -896,14 +409,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="1611" class="context" id="11"
-                  onclick="toggle(11);">
-                <li class="context-line" id="context-11"><code>          proc { |a,p| unbound_method.bind(a).call }</code></li>
+              <ol start="1611" class="context" id="4"
+                  onclick="toggle(4);">
+                <li class="context-line" id="context-4"><code>          proc { |a,p| unbound_method.bind(a).call }</code></li>
               </ol>
 
               
               <ol start="1612" class="post-context"
-                  id="post-11" onclick="toggle(11);">
+                  id="post-4" onclick="toggle(4);">
                 
                 <li class="post-context-line"><code>        wrapper.instance_variable_set(:@route_name, method_name)
 </code></li>
@@ -945,8 +458,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="1604"
-                  class="pre-context" id="pre-12"
-                  onclick="toggle(12);">
+                  class="pre-context" id="pre-5"
+                  onclick="toggle(5);">
                 
                 <li class="pre-context-line"><code>        method_name             = &quot;#{verb} #{path}&quot;
 </code></li>
@@ -972,14 +485,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="1611" class="context" id="12"
-                  onclick="toggle(12);">
-                <li class="context-line" id="context-12"><code>          proc { |a,p| unbound_method.bind(a).call }</code></li>
+              <ol start="1611" class="context" id="5"
+                  onclick="toggle(5);">
+                <li class="context-line" id="context-5"><code>          proc { |a,p| unbound_method.bind(a).call }</code></li>
               </ol>
 
               
               <ol start="1612" class="post-context"
-                  id="post-12" onclick="toggle(12);">
+                  id="post-5" onclick="toggle(5);">
                 
                 <li class="post-context-line"><code>        wrapper.instance_variable_set(:@route_name, method_name)
 </code></li>
@@ -1021,8 +534,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="968"
-                  class="pre-context" id="pre-13"
-                  onclick="toggle(13);">
+                  class="pre-context" id="pre-6"
+                  onclick="toggle(6);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -1048,14 +561,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="975" class="context" id="13"
-                  onclick="toggle(13);">
-                <li class="context-line" id="context-13"><code>            route_eval { block[*args] }</code></li>
+              <ol start="975" class="context" id="6"
+                  onclick="toggle(6);">
+                <li class="context-line" id="context-6"><code>            route_eval { block[*args] }</code></li>
               </ol>
 
               
               <ol start="976" class="post-context"
-                  id="post-13" onclick="toggle(13);">
+                  id="post-6" onclick="toggle(6);">
                 
                 <li class="post-context-line"><code>          end
 </code></li>
@@ -1097,8 +610,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="987"
-                  class="pre-context" id="pre-14"
-                  onclick="toggle(14);">
+                  class="pre-context" id="pre-7"
+                  onclick="toggle(7);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -1124,14 +637,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="994" class="context" id="14"
-                  onclick="toggle(14);">
-                <li class="context-line" id="context-14"><code>      throw :halt, yield</code></li>
+              <ol start="994" class="context" id="7"
+                  onclick="toggle(7);">
+                <li class="context-line" id="context-7"><code>      throw :halt, yield</code></li>
               </ol>
 
               
               <ol start="995" class="post-context"
-                  id="post-14" onclick="toggle(14);">
+                  id="post-7" onclick="toggle(7);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -1173,8 +686,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="968"
-                  class="pre-context" id="pre-15"
-                  onclick="toggle(15);">
+                  class="pre-context" id="pre-8"
+                  onclick="toggle(8);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -1200,14 +713,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="975" class="context" id="15"
-                  onclick="toggle(15);">
-                <li class="context-line" id="context-15"><code>            route_eval { block[*args] }</code></li>
+              <ol start="975" class="context" id="8"
+                  onclick="toggle(8);">
+                <li class="context-line" id="context-8"><code>            route_eval { block[*args] }</code></li>
               </ol>
 
               
               <ol start="976" class="post-context"
-                  id="post-15" onclick="toggle(15);">
+                  id="post-8" onclick="toggle(8);">
                 
                 <li class="post-context-line"><code>          end
 </code></li>
@@ -1249,8 +762,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="1008"
-                  class="pre-context" id="pre-16"
-                  onclick="toggle(16);">
+                  class="pre-context" id="pre-9"
+                  onclick="toggle(9);">
                 
                 <li class="pre-context-line"><code>      if values.any?
 </code></li>
@@ -1276,14 +789,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="1015" class="context" id="16"
-                  onclick="toggle(16);">
-                <li class="context-line" id="context-16"><code>        block ? block[self, values] : yield(self, values)</code></li>
+              <ol start="1015" class="context" id="9"
+                  onclick="toggle(9);">
+                <li class="context-line" id="context-9"><code>        block ? block[self, values] : yield(self, values)</code></li>
               </ol>
 
               
               <ol start="1016" class="post-context"
-                  id="post-16" onclick="toggle(16);">
+                  id="post-9" onclick="toggle(9);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -1325,8 +838,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="1006"
-                  class="pre-context" id="pre-17"
-                  onclick="toggle(17);">
+                  class="pre-context" id="pre-10"
+                  onclick="toggle(10);">
                 
                 <li class="pre-context-line"><code>      values += match.captures.map! { |v| force_encoding URI_INSTANCE.unescape(v) if v }
 </code></li>
@@ -1352,14 +865,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="1013" class="context" id="17"
-                  onclick="toggle(17);">
-                <li class="context-line" id="context-17"><code>      catch(:pass) do</code></li>
+              <ol start="1013" class="context" id="10"
+                  onclick="toggle(10);">
+                <li class="context-line" id="context-10"><code>      catch(:pass) do</code></li>
               </ol>
 
               
               <ol start="1014" class="post-context"
-                  id="post-17" onclick="toggle(17);">
+                  id="post-10" onclick="toggle(10);">
                 
                 <li class="post-context-line"><code>        conditions.each { |c| throw :pass if c.bind(self).call == false }
 </code></li>
@@ -1401,8 +914,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="1006"
-                  class="pre-context" id="pre-18"
-                  onclick="toggle(18);">
+                  class="pre-context" id="pre-11"
+                  onclick="toggle(11);">
                 
                 <li class="pre-context-line"><code>      values += match.captures.map! { |v| force_encoding URI_INSTANCE.unescape(v) if v }
 </code></li>
@@ -1428,14 +941,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="1013" class="context" id="18"
-                  onclick="toggle(18);">
-                <li class="context-line" id="context-18"><code>      catch(:pass) do</code></li>
+              <ol start="1013" class="context" id="11"
+                  onclick="toggle(11);">
+                <li class="context-line" id="context-11"><code>      catch(:pass) do</code></li>
               </ol>
 
               
               <ol start="1014" class="post-context"
-                  id="post-18" onclick="toggle(18);">
+                  id="post-11" onclick="toggle(11);">
                 
                 <li class="post-context-line"><code>        conditions.each { |c| throw :pass if c.bind(self).call == false }
 </code></li>
@@ -1477,8 +990,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="966"
-                  class="pre-context" id="pre-19"
-                  onclick="toggle(19);">
+                  class="pre-context" id="pre-12"
+                  onclick="toggle(12);">
                 
                 <li class="pre-context-line"><code>      base.filters[type].each { |args| process_route(*args) }
 </code></li>
@@ -1504,14 +1017,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="973" class="context" id="19"
-                  onclick="toggle(19);">
-                <li class="context-line" id="context-19"><code>          returned_pass_block = process_route(pattern, keys, conditions) do |*args|</code></li>
+              <ol start="973" class="context" id="12"
+                  onclick="toggle(12);">
+                <li class="context-line" id="context-12"><code>          returned_pass_block = process_route(pattern, keys, conditions) do |*args|</code></li>
               </ol>
 
               
               <ol start="974" class="post-context"
-                  id="post-19" onclick="toggle(19);">
+                  id="post-12" onclick="toggle(12);">
                 
                 <li class="post-context-line"><code>            env[&#x27;sinatra.route&#x27;] = block.instance_variable_get(:@route_name)
 </code></li>
@@ -1553,8 +1066,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="965"
-                  class="pre-context" id="pre-20"
-                  onclick="toggle(20);">
+                  class="pre-context" id="pre-13"
+                  onclick="toggle(13);">
                 
                 <li class="pre-context-line"><code>      filter! type, base.superclass if base.superclass.respond_to?(:filters)
 </code></li>
@@ -1580,14 +1093,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="972" class="context" id="20"
-                  onclick="toggle(20);">
-                <li class="context-line" id="context-20"><code>        routes.each do |pattern, keys, conditions, block|</code></li>
+              <ol start="972" class="context" id="13"
+                  onclick="toggle(13);">
+                <li class="context-line" id="context-13"><code>        routes.each do |pattern, keys, conditions, block|</code></li>
               </ol>
 
               
               <ol start="973" class="post-context"
-                  id="post-20" onclick="toggle(20);">
+                  id="post-13" onclick="toggle(13);">
                 
                 <li class="post-context-line"><code>          returned_pass_block = process_route(pattern, keys, conditions) do |*args|
 </code></li>
@@ -1629,8 +1142,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="965"
-                  class="pre-context" id="pre-21"
-                  onclick="toggle(21);">
+                  class="pre-context" id="pre-14"
+                  onclick="toggle(14);">
                 
                 <li class="pre-context-line"><code>      filter! type, base.superclass if base.superclass.respond_to?(:filters)
 </code></li>
@@ -1656,14 +1169,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="972" class="context" id="21"
-                  onclick="toggle(21);">
-                <li class="context-line" id="context-21"><code>        routes.each do |pattern, keys, conditions, block|</code></li>
+              <ol start="972" class="context" id="14"
+                  onclick="toggle(14);">
+                <li class="context-line" id="context-14"><code>        routes.each do |pattern, keys, conditions, block|</code></li>
               </ol>
 
               
               <ol start="973" class="post-context"
-                  id="post-21" onclick="toggle(21);">
+                  id="post-14" onclick="toggle(14);">
                 
                 <li class="post-context-line"><code>          returned_pass_block = process_route(pattern, keys, conditions) do |*args|
 </code></li>
@@ -1705,8 +1218,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="1078"
-                  class="pre-context" id="pre-22"
-                  onclick="toggle(22);">
+                  class="pre-context" id="pre-15"
+                  onclick="toggle(15);">
                 
                 <li class="pre-context-line"><code>    end
 </code></li>
@@ -1732,14 +1245,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="1085" class="context" id="22"
-                  onclick="toggle(22);">
-                <li class="context-line" id="context-22"><code>        route!</code></li>
+              <ol start="1085" class="context" id="15"
+                  onclick="toggle(15);">
+                <li class="context-line" id="context-15"><code>        route!</code></li>
               </ol>
 
               
               <ol start="1086" class="post-context"
-                  id="post-22" onclick="toggle(22);">
+                  id="post-15" onclick="toggle(15);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -1776,6 +1289,538 @@ Did you mean?  to_s
             <li class="frame-info framework">
               <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>block in invoke</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="1060"
+                  class="pre-context" id="pre-16"
+                  onclick="toggle(16);">
+                
+                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def indifferent_hash
+</code></li>
+                
+                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
+</code></li>
+                
+                <li class="pre-context-line"><code>    end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def invoke
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="1067" class="context" id="16"
+                  onclick="toggle(16);">
+                <li class="context-line" id="context-16"><code>      res = catch(:halt) { yield }</code></li>
+              </ol>
+
+              
+              <ol start="1068" class="post-context"
+                  id="post-16" onclick="toggle(16);">
+                
+                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
+</code></li>
+                
+                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
+</code></li>
+                
+                <li class="post-context-line"><code>        res = res.dup
+</code></li>
+                
+                <li class="post-context-line"><code>        status(res.shift)
+</code></li>
+                
+                <li class="post-context-line"><code>        body(res.pop)
+</code></li>
+                
+                <li class="post-context-line"><code>        headers(*res)
+</code></li>
+                
+                <li class="post-context-line"><code>      elsif res.respond_to? :each
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>catch</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="1060"
+                  class="pre-context" id="pre-17"
+                  onclick="toggle(17);">
+                
+                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def indifferent_hash
+</code></li>
+                
+                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
+</code></li>
+                
+                <li class="pre-context-line"><code>    end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def invoke
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="1067" class="context" id="17"
+                  onclick="toggle(17);">
+                <li class="context-line" id="context-17"><code>      res = catch(:halt) { yield }</code></li>
+              </ol>
+
+              
+              <ol start="1068" class="post-context"
+                  id="post-17" onclick="toggle(17);">
+                
+                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
+</code></li>
+                
+                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
+</code></li>
+                
+                <li class="post-context-line"><code>        res = res.dup
+</code></li>
+                
+                <li class="post-context-line"><code>        status(res.shift)
+</code></li>
+                
+                <li class="post-context-line"><code>        body(res.pop)
+</code></li>
+                
+                <li class="post-context-line"><code>        headers(*res)
+</code></li>
+                
+                <li class="post-context-line"><code>      elsif res.respond_to? :each
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>invoke</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="1060"
+                  class="pre-context" id="pre-18"
+                  onclick="toggle(18);">
+                
+                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def indifferent_hash
+</code></li>
+                
+                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
+</code></li>
+                
+                <li class="pre-context-line"><code>    end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def invoke
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="1067" class="context" id="18"
+                  onclick="toggle(18);">
+                <li class="context-line" id="context-18"><code>      res = catch(:halt) { yield }</code></li>
+              </ol>
+
+              
+              <ol start="1068" class="post-context"
+                  id="post-18" onclick="toggle(18);">
+                
+                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
+</code></li>
+                
+                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
+</code></li>
+                
+                <li class="post-context-line"><code>        res = res.dup
+</code></li>
+                
+                <li class="post-context-line"><code>        status(res.shift)
+</code></li>
+                
+                <li class="post-context-line"><code>        body(res.pop)
+</code></li>
+                
+                <li class="post-context-line"><code>        headers(*res)
+</code></li>
+                
+                <li class="post-context-line"><code>      elsif res.respond_to? :each
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>dispatch!</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="1075"
+                  class="pre-context" id="pre-19"
+                  onclick="toggle(19);">
+                
+                <li class="pre-context-line"><code>        body res
+</code></li>
+                
+                <li class="pre-context-line"><code>      end
+</code></li>
+                
+                <li class="pre-context-line"><code>      nil # avoid double setting the same response tuple twice
+</code></li>
+                
+                <li class="pre-context-line"><code>    end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>    # Dispatch a request with error handling.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def dispatch!
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="1082" class="context" id="19"
+                  onclick="toggle(19);">
+                <li class="context-line" id="context-19"><code>      invoke do</code></li>
+              </ol>
+
+              
+              <ol start="1083" class="post-context"
+                  id="post-19" onclick="toggle(19);">
+                
+                <li class="post-context-line"><code>        static! if settings.static? &amp;&amp; (request.get? || request.head?)
+</code></li>
+                
+                <li class="post-context-line"><code>        filter! :before
+</code></li>
+                
+                <li class="post-context-line"><code>        route!
+</code></li>
+                
+                <li class="post-context-line"><code>      end
+</code></li>
+                
+                <li class="post-context-line"><code>    rescue ::Exception =&gt; boom
+</code></li>
+                
+                <li class="post-context-line"><code>      invoke { handle_exception!(boom) }
+</code></li>
+                
+                <li class="post-context-line"><code>    ensure
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>block in call!</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="900"
+                  class="pre-context" id="pre-20"
+                  onclick="toggle(20);">
+                
+                <li class="pre-context-line"><code>      @request  = Request.new(env)
+</code></li>
+                
+                <li class="pre-context-line"><code>      @response = Response.new
+</code></li>
+                
+                <li class="pre-context-line"><code>      @params   = indifferent_params(@request.params)
+</code></li>
+                
+                <li class="pre-context-line"><code>      template_cache.clear if settings.reload_templates
+</code></li>
+                
+                <li class="pre-context-line"><code>      force_encoding(@params)
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>      @response[&#x27;Content-Type&#x27;] = nil
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="907" class="context" id="20"
+                  onclick="toggle(20);">
+                <li class="context-line" id="context-20"><code>      invoke { dispatch! }</code></li>
+              </ol>
+
+              
+              <ol start="908" class="post-context"
+                  id="post-20" onclick="toggle(20);">
+                
+                <li class="post-context-line"><code>      invoke { error_block!(response.status) } unless @env[&#x27;sinatra.error&#x27;]
+</code></li>
+                
+                <li class="post-context-line"><code>
+</code></li>
+                
+                <li class="post-context-line"><code>      unless @response[&#x27;Content-Type&#x27;]
+</code></li>
+                
+                <li class="post-context-line"><code>        if Array === body and body[0].respond_to? :content_type
+</code></li>
+                
+                <li class="post-context-line"><code>          content_type body[0].content_type
+</code></li>
+                
+                <li class="post-context-line"><code>        else
+</code></li>
+                
+                <li class="post-context-line"><code>          content_type :html
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>block in invoke</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="1060"
+                  class="pre-context" id="pre-21"
+                  onclick="toggle(21);">
+                
+                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def indifferent_hash
+</code></li>
+                
+                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
+</code></li>
+                
+                <li class="pre-context-line"><code>    end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def invoke
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="1067" class="context" id="21"
+                  onclick="toggle(21);">
+                <li class="context-line" id="context-21"><code>      res = catch(:halt) { yield }</code></li>
+              </ol>
+
+              
+              <ol start="1068" class="post-context"
+                  id="post-21" onclick="toggle(21);">
+                
+                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
+</code></li>
+                
+                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
+</code></li>
+                
+                <li class="post-context-line"><code>        res = res.dup
+</code></li>
+                
+                <li class="post-context-line"><code>        status(res.shift)
+</code></li>
+                
+                <li class="post-context-line"><code>        body(res.pop)
+</code></li>
+                
+                <li class="post-context-line"><code>        headers(*res)
+</code></li>
+                
+                <li class="post-context-line"><code>      elsif res.respond_to? :each
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>catch</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="1060"
+                  class="pre-context" id="pre-22"
+                  onclick="toggle(22);">
+                
+                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def indifferent_hash
+</code></li>
+                
+                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
+</code></li>
+                
+                <li class="pre-context-line"><code>    end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def invoke
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="1067" class="context" id="22"
+                  onclick="toggle(22);">
+                <li class="context-line" id="context-22"><code>      res = catch(:halt) { yield }</code></li>
+              </ol>
+
+              
+              <ol start="1068" class="post-context"
+                  id="post-22" onclick="toggle(22);">
+                
+                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
+</code></li>
+                
+                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
+</code></li>
+                
+                <li class="post-context-line"><code>        res = res.dup
+</code></li>
+                
+                <li class="post-context-line"><code>        status(res.shift)
+</code></li>
+                
+                <li class="post-context-line"><code>        body(res.pop)
+</code></li>
+                
+                <li class="post-context-line"><code>        headers(*res)
+</code></li>
+                
+                <li class="post-context-line"><code>      elsif res.respond_to? :each
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>invoke</strong></code>
             </li>
 
             <li class="code framework">
@@ -1851,546 +1896,14 @@ Did you mean?  to_s
 
             <li class="frame-info framework">
               <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>catch</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="1060"
-                  class="pre-context" id="pre-24"
-                  onclick="toggle(24);">
-                
-                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def indifferent_hash
-</code></li>
-                
-                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def invoke
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="1067" class="context" id="24"
-                  onclick="toggle(24);">
-                <li class="context-line" id="context-24"><code>      res = catch(:halt) { yield }</code></li>
-              </ol>
-
-              
-              <ol start="1068" class="post-context"
-                  id="post-24" onclick="toggle(24);">
-                
-                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
-</code></li>
-                
-                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
-</code></li>
-                
-                <li class="post-context-line"><code>        res = res.dup
-</code></li>
-                
-                <li class="post-context-line"><code>        status(res.shift)
-</code></li>
-                
-                <li class="post-context-line"><code>        body(res.pop)
-</code></li>
-                
-                <li class="post-context-line"><code>        headers(*res)
-</code></li>
-                
-                <li class="post-context-line"><code>      elsif res.respond_to? :each
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>invoke</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="1060"
-                  class="pre-context" id="pre-25"
-                  onclick="toggle(25);">
-                
-                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def indifferent_hash
-</code></li>
-                
-                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def invoke
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="1067" class="context" id="25"
-                  onclick="toggle(25);">
-                <li class="context-line" id="context-25"><code>      res = catch(:halt) { yield }</code></li>
-              </ol>
-
-              
-              <ol start="1068" class="post-context"
-                  id="post-25" onclick="toggle(25);">
-                
-                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
-</code></li>
-                
-                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
-</code></li>
-                
-                <li class="post-context-line"><code>        res = res.dup
-</code></li>
-                
-                <li class="post-context-line"><code>        status(res.shift)
-</code></li>
-                
-                <li class="post-context-line"><code>        body(res.pop)
-</code></li>
-                
-                <li class="post-context-line"><code>        headers(*res)
-</code></li>
-                
-                <li class="post-context-line"><code>      elsif res.respond_to? :each
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>dispatch!</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="1075"
-                  class="pre-context" id="pre-26"
-                  onclick="toggle(26);">
-                
-                <li class="pre-context-line"><code>        body res
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>      nil # avoid double setting the same response tuple twice
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Dispatch a request with error handling.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def dispatch!
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="1082" class="context" id="26"
-                  onclick="toggle(26);">
-                <li class="context-line" id="context-26"><code>      invoke do</code></li>
-              </ol>
-
-              
-              <ol start="1083" class="post-context"
-                  id="post-26" onclick="toggle(26);">
-                
-                <li class="post-context-line"><code>        static! if settings.static? &amp;&amp; (request.get? || request.head?)
-</code></li>
-                
-                <li class="post-context-line"><code>        filter! :before
-</code></li>
-                
-                <li class="post-context-line"><code>        route!
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    rescue ::Exception =&gt; boom
-</code></li>
-                
-                <li class="post-context-line"><code>      invoke { handle_exception!(boom) }
-</code></li>
-                
-                <li class="post-context-line"><code>    ensure
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>block in call!</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="900"
-                  class="pre-context" id="pre-27"
-                  onclick="toggle(27);">
-                
-                <li class="pre-context-line"><code>      @request  = Request.new(env)
-</code></li>
-                
-                <li class="pre-context-line"><code>      @response = Response.new
-</code></li>
-                
-                <li class="pre-context-line"><code>      @params   = indifferent_params(@request.params)
-</code></li>
-                
-                <li class="pre-context-line"><code>      template_cache.clear if settings.reload_templates
-</code></li>
-                
-                <li class="pre-context-line"><code>      force_encoding(@params)
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      @response[&#x27;Content-Type&#x27;] = nil
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="907" class="context" id="27"
-                  onclick="toggle(27);">
-                <li class="context-line" id="context-27"><code>      invoke { dispatch! }</code></li>
-              </ol>
-
-              
-              <ol start="908" class="post-context"
-                  id="post-27" onclick="toggle(27);">
-                
-                <li class="post-context-line"><code>      invoke { error_block!(response.status) } unless @env[&#x27;sinatra.error&#x27;]
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      unless @response[&#x27;Content-Type&#x27;]
-</code></li>
-                
-                <li class="post-context-line"><code>        if Array === body and body[0].respond_to? :content_type
-</code></li>
-                
-                <li class="post-context-line"><code>          content_type body[0].content_type
-</code></li>
-                
-                <li class="post-context-line"><code>        else
-</code></li>
-                
-                <li class="post-context-line"><code>          content_type :html
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>block in invoke</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="1060"
-                  class="pre-context" id="pre-28"
-                  onclick="toggle(28);">
-                
-                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def indifferent_hash
-</code></li>
-                
-                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def invoke
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="1067" class="context" id="28"
-                  onclick="toggle(28);">
-                <li class="context-line" id="context-28"><code>      res = catch(:halt) { yield }</code></li>
-              </ol>
-
-              
-              <ol start="1068" class="post-context"
-                  id="post-28" onclick="toggle(28);">
-                
-                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
-</code></li>
-                
-                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
-</code></li>
-                
-                <li class="post-context-line"><code>        res = res.dup
-</code></li>
-                
-                <li class="post-context-line"><code>        status(res.shift)
-</code></li>
-                
-                <li class="post-context-line"><code>        body(res.pop)
-</code></li>
-                
-                <li class="post-context-line"><code>        headers(*res)
-</code></li>
-                
-                <li class="post-context-line"><code>      elsif res.respond_to? :each
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>catch</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="1060"
-                  class="pre-context" id="pre-29"
-                  onclick="toggle(29);">
-                
-                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def indifferent_hash
-</code></li>
-                
-                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def invoke
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="1067" class="context" id="29"
-                  onclick="toggle(29);">
-                <li class="context-line" id="context-29"><code>      res = catch(:halt) { yield }</code></li>
-              </ol>
-
-              
-              <ol start="1068" class="post-context"
-                  id="post-29" onclick="toggle(29);">
-                
-                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
-</code></li>
-                
-                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
-</code></li>
-                
-                <li class="post-context-line"><code>        res = res.dup
-</code></li>
-                
-                <li class="post-context-line"><code>        status(res.shift)
-</code></li>
-                
-                <li class="post-context-line"><code>        body(res.pop)
-</code></li>
-                
-                <li class="post-context-line"><code>        headers(*res)
-</code></li>
-                
-                <li class="post-context-line"><code>      elsif res.respond_to? :each
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>invoke</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="1060"
-                  class="pre-context" id="pre-30"
-                  onclick="toggle(30);">
-                
-                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def indifferent_hash
-</code></li>
-                
-                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def invoke
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="1067" class="context" id="30"
-                  onclick="toggle(30);">
-                <li class="context-line" id="context-30"><code>      res = catch(:halt) { yield }</code></li>
-              </ol>
-
-              
-              <ol start="1068" class="post-context"
-                  id="post-30" onclick="toggle(30);">
-                
-                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
-</code></li>
-                
-                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
-</code></li>
-                
-                <li class="post-context-line"><code>        res = res.dup
-</code></li>
-                
-                <li class="post-context-line"><code>        status(res.shift)
-</code></li>
-                
-                <li class="post-context-line"><code>        body(res.pop)
-</code></li>
-                
-                <li class="post-context-line"><code>        headers(*res)
-</code></li>
-                
-                <li class="post-context-line"><code>      elsif res.respond_to? :each
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;sinatra-1.4.7&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>call!</strong></code>
             </li>
 
             <li class="code framework">
               
               <ol start="900"
-                  class="pre-context" id="pre-31"
-                  onclick="toggle(31);">
+                  class="pre-context" id="pre-24"
+                  onclick="toggle(24);">
                 
                 <li class="pre-context-line"><code>      @request  = Request.new(env)
 </code></li>
@@ -2416,14 +1929,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="907" class="context" id="31"
-                  onclick="toggle(31);">
-                <li class="context-line" id="context-31"><code>      invoke { dispatch! }</code></li>
+              <ol start="907" class="context" id="24"
+                  onclick="toggle(24);">
+                <li class="context-line" id="context-24"><code>      invoke { dispatch! }</code></li>
               </ol>
 
               
               <ol start="908" class="post-context"
-                  id="post-31" onclick="toggle(31);">
+                  id="post-24" onclick="toggle(24);">
                 
                 <li class="post-context-line"><code>      invoke { error_block!(response.status) } unless @env[&#x27;sinatra.error&#x27;]
 </code></li>
@@ -2465,8 +1978,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="888"
-                  class="pre-context" id="pre-32"
-                  onclick="toggle(32);">
+                  class="pre-context" id="pre-25"
+                  onclick="toggle(25);">
                 
                 <li class="pre-context-line"><code>      @app = app
 </code></li>
@@ -2492,14 +2005,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="895" class="context" id="32"
-                  onclick="toggle(32);">
-                <li class="context-line" id="context-32"><code>      dup.call!(env)</code></li>
+              <ol start="895" class="context" id="25"
+                  onclick="toggle(25);">
+                <li class="context-line" id="context-25"><code>      dup.call!(env)</code></li>
               </ol>
 
               
               <ol start="896" class="post-context"
-                  id="post-32" onclick="toggle(32);">
+                  id="post-25" onclick="toggle(25);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -2541,8 +2054,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="11"
-                  class="pre-context" id="pre-33"
-                  onclick="toggle(33);">
+                  class="pre-context" id="pre-26"
+                  onclick="toggle(26);">
                 
                 <li class="pre-context-line"><code>    #
 </code></li>
@@ -2568,14 +2081,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="18" class="context" id="33"
-                  onclick="toggle(33);">
-                <li class="context-line" id="context-33"><code>        status, headers, body = @app.call(env)</code></li>
+              <ol start="18" class="context" id="26"
+                  onclick="toggle(26);">
+                <li class="context-line" id="context-26"><code>        status, headers, body = @app.call(env)</code></li>
               </ol>
 
               
               <ol start="19" class="post-context"
-                  id="post-33" onclick="toggle(33);">
+                  id="post-26" onclick="toggle(26);">
                 
                 <li class="post-context-line"><code>        headers[&#x27;X-XSS-Protection&#x27;]       ||= &quot;1; mode=#{options[:xss_mode]}&quot; if html? headers
 </code></li>
@@ -2617,8 +2130,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="9"
-                  class="pre-context" id="pre-34"
-                  onclick="toggle(34);">
+                  class="pre-context" id="pre-27"
+                  onclick="toggle(27);">
                 
                 <li class="pre-context-line"><code>    #
 </code></li>
@@ -2644,14 +2157,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="16" class="context" id="34"
-                  onclick="toggle(34);">
-                <li class="context-line" id="context-34"><code>        app.call env</code></li>
+              <ol start="16" class="context" id="27"
+                  onclick="toggle(27);">
+                <li class="context-line" id="context-27"><code>        app.call env</code></li>
               </ol>
 
               
               <ol start="17" class="post-context"
-                  id="post-34" onclick="toggle(34);">
+                  id="post-27" onclick="toggle(27);">
                 
                 <li class="post-context-line"><code>      ensure
 </code></li>
@@ -2693,8 +2206,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="11"
-                  class="pre-context" id="pre-35"
-                  onclick="toggle(35);">
+                  class="pre-context" id="pre-28"
+                  onclick="toggle(28);">
                 
                 <li class="pre-context-line"><code>    # Array prototype has been patched to track data. Checks the referrer
 </code></li>
@@ -2720,14 +2233,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="18" class="context" id="35"
-                  onclick="toggle(35);">
-                <li class="context-line" id="context-35"><code>        status, headers, body = app.call(env)</code></li>
+              <ol start="18" class="context" id="28"
+                  onclick="toggle(28);">
+                <li class="context-line" id="context-28"><code>        status, headers, body = app.call(env)</code></li>
               </ol>
 
               
               <ol start="19" class="post-context"
-                  id="post-35" onclick="toggle(35);">
+                  id="post-28" onclick="toggle(28);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -2769,8 +2282,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="42"
-                  class="pre-context" id="pre-36"
-                  onclick="toggle(36);">
+                  class="pre-context" id="pre-29"
+                  onclick="toggle(29);">
                 
                 <li class="pre-context-line"><code>      end
 </code></li>
@@ -2796,14 +2309,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="49" class="context" id="36"
-                  onclick="toggle(36);">
-                <li class="context-line" id="context-36"><code>        result or app.call(env)</code></li>
+              <ol start="49" class="context" id="29"
+                  onclick="toggle(29);">
+                <li class="context-line" id="context-29"><code>        result or app.call(env)</code></li>
               </ol>
 
               
               <ol start="50" class="post-context"
-                  id="post-36" onclick="toggle(36);">
+                  id="post-29" onclick="toggle(29);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -2845,8 +2358,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="42"
-                  class="pre-context" id="pre-37"
-                  onclick="toggle(37);">
+                  class="pre-context" id="pre-30"
+                  onclick="toggle(30);">
                 
                 <li class="pre-context-line"><code>      end
 </code></li>
@@ -2872,14 +2385,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="49" class="context" id="37"
-                  onclick="toggle(37);">
-                <li class="context-line" id="context-37"><code>        result or app.call(env)</code></li>
+              <ol start="49" class="context" id="30"
+                  onclick="toggle(30);">
+                <li class="context-line" id="context-30"><code>        result or app.call(env)</code></li>
               </ol>
 
               
               <ol start="50" class="post-context"
-                  id="post-37" onclick="toggle(37);">
+                  id="post-30" onclick="toggle(30);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -2921,8 +2434,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="24"
-                  class="pre-context" id="pre-38"
-                  onclick="toggle(38);">
+                  class="pre-context" id="pre-31"
+                  onclick="toggle(31);">
                 
                 <li class="pre-context-line"><code>          frame_options = options[:frame_options]
 </code></li>
@@ -2948,14 +2461,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="31" class="context" id="38"
-                  onclick="toggle(38);">
-                <li class="context-line" id="context-38"><code>        status, headers, body        = @app.call(env)</code></li>
+              <ol start="31" class="context" id="31"
+                  onclick="toggle(31);">
+                <li class="context-line" id="context-31"><code>        status, headers, body        = @app.call(env)</code></li>
               </ol>
 
               
               <ol start="32" class="post-context"
-                  id="post-38" onclick="toggle(38);">
+                  id="post-31" onclick="toggle(31);">
                 
                 <li class="post-context-line"><code>        headers[&#x27;X-Frame-Options&#x27;] ||= frame_options if html? headers
 </code></li>
@@ -2994,8 +2507,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="8"
-                  class="pre-context" id="pre-39"
-                  onclick="toggle(39);">
+                  class="pre-context" id="pre-32"
+                  onclick="toggle(32);">
                 
                 <li class="pre-context-line"><code>    end
 </code></li>
@@ -3021,14 +2534,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="15" class="context" id="39"
-                  onclick="toggle(39);">
-                <li class="context-line" id="context-39"><code>      @app.call(env)</code></li>
+              <ol start="15" class="context" id="32"
+                  onclick="toggle(32);">
+                <li class="context-line" id="context-32"><code>      @app.call(env)</code></li>
               </ol>
 
               
               <ol start="16" class="post-context"
-                  id="post-39" onclick="toggle(39);">
+                  id="post-32" onclick="toggle(32);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -3058,8 +2571,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="26"
-                  class="pre-context" id="pre-40"
-                  onclick="toggle(40);">
+                  class="pre-context" id="pre-33"
+                  onclick="toggle(33);">
                 
                 <li class="pre-context-line"><code>    def initialize(app, logger=nil)
 </code></li>
@@ -3085,14 +2598,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="33" class="context" id="40"
-                  onclick="toggle(40);">
-                <li class="context-line" id="context-40"><code>      status, header, body = @app.call(env)</code></li>
+              <ol start="33" class="context" id="33"
+                  onclick="toggle(33);">
+                <li class="context-line" id="context-33"><code>      status, header, body = @app.call(env)</code></li>
               </ol>
 
               
               <ol start="34" class="post-context"
-                  id="post-40" onclick="toggle(40);">
+                  id="post-33" onclick="toggle(33);">
                 
                 <li class="post-context-line"><code>      header = Utils::HeaderHash.new(header)
 </code></li>
@@ -3134,8 +2647,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="212"
-                  class="pre-context" id="pre-41"
-                  onclick="toggle(41);">
+                  class="pre-context" id="pre-34"
+                  onclick="toggle(34);">
                 
                 <li class="pre-context-line"><code>      env[&#x27;sinatra.commonlogger&#x27;] ? @app.call(env) : super
 </code></li>
@@ -3161,14 +2674,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="219" class="context" id="41"
-                  onclick="toggle(41);">
-                <li class="context-line" id="context-41"><code>        call_without_check(env)</code></li>
+              <ol start="219" class="context" id="34"
+                  onclick="toggle(34);">
+                <li class="context-line" id="context-34"><code>        call_without_check(env)</code></li>
               </ol>
 
               
               <ol start="220" class="post-context"
-                  id="post-41" onclick="toggle(41);">
+                  id="post-34" onclick="toggle(34);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -3210,8 +2723,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="205"
-                  class="pre-context" id="pre-42"
-                  onclick="toggle(42);">
+                  class="pre-context" id="pre-35"
+                  onclick="toggle(35);">
                 
                 <li class="pre-context-line"><code>    end
 </code></li>
@@ -3237,14 +2750,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="212" class="context" id="42"
-                  onclick="toggle(42);">
-                <li class="context-line" id="context-42"><code>      env[&#x27;sinatra.commonlogger&#x27;] ? @app.call(env) : super</code></li>
+              <ol start="212" class="context" id="35"
+                  onclick="toggle(35);">
+                <li class="context-line" id="context-35"><code>      env[&#x27;sinatra.commonlogger&#x27;] ? @app.call(env) : super</code></li>
               </ol>
 
               
               <ol start="213" class="post-context"
-                  id="post-42" onclick="toggle(42);">
+                  id="post-35" onclick="toggle(35);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -3286,8 +2799,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="6"
-                  class="pre-context" id="pre-43"
-                  onclick="toggle(43);">
+                  class="pre-context" id="pre-36"
+                  onclick="toggle(36);">
                 
                 <li class="pre-context-line"><code>  # Rack::Head returns an empty body for all HEAD requests. It leaves
 </code></li>
@@ -3313,14 +2826,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="13" class="context" id="43"
-                  onclick="toggle(43);">
-                <li class="context-line" id="context-43"><code>    status, headers, body = @app.call(env)</code></li>
+              <ol start="13" class="context" id="36"
+                  onclick="toggle(36);">
+                <li class="context-line" id="context-36"><code>    status, headers, body = @app.call(env)</code></li>
               </ol>
 
               
               <ol start="14" class="post-context"
-                  id="post-43" onclick="toggle(43);">
+                  id="post-36" onclick="toggle(36);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -3362,8 +2875,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="15"
-                  class="pre-context" id="pre-44"
-                  onclick="toggle(44);">
+                  class="pre-context" id="pre-37"
+                  onclick="toggle(37);">
                 
                 <li class="pre-context-line"><code>        method = method_override(env)
 </code></li>
@@ -3389,14 +2902,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="22" class="context" id="44"
-                  onclick="toggle(44);">
-                <li class="context-line" id="context-44"><code>      @app.call(env)</code></li>
+              <ol start="22" class="context" id="37"
+                  onclick="toggle(37);">
+                <li class="context-line" id="context-37"><code>      @app.call(env)</code></li>
               </ol>
 
               
               <ol start="23" class="post-context"
-                  id="post-44" onclick="toggle(44);">
+                  id="post-37" onclick="toggle(37);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -3438,8 +2951,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="18"
-                  class="pre-context" id="pre-45"
-                  onclick="toggle(45);">
+                  class="pre-context" id="pre-38"
+                  onclick="toggle(38);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -3465,14 +2978,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="25" class="context" id="45"
-                  onclick="toggle(45);">
-                <li class="context-line" id="context-45"><code>      @app.call(env)</code></li>
+              <ol start="25" class="context" id="38"
+                  onclick="toggle(38);">
+                <li class="context-line" id="context-38"><code>      @app.call(env)</code></li>
               </ol>
 
               
               <ol start="26" class="post-context"
-                  id="post-45" onclick="toggle(45);">
+                  id="post-38" onclick="toggle(38);">
                 
                 <li class="post-context-line"><code>    rescue Exception =&gt; e
 </code></li>
@@ -3514,8 +3027,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="175"
-                  class="pre-context" id="pre-46"
-                  onclick="toggle(46);">
+                  class="pre-context" id="pre-39"
+                  onclick="toggle(39);">
                 
                 <li class="pre-context-line"><code>  # Some Rack handlers (Thin, Rainbows!) implement an extended body object protocol, however,
 </code></li>
@@ -3541,14 +3054,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="182" class="context" id="46"
-                  onclick="toggle(46);">
-                <li class="context-line" id="context-46"><code>      result, callback = app.call(env), env[&#x27;async.callback&#x27;]</code></li>
+              <ol start="182" class="context" id="39"
+                  onclick="toggle(39);">
+                <li class="context-line" id="context-39"><code>      result, callback = app.call(env), env[&#x27;async.callback&#x27;]</code></li>
               </ol>
 
               
               <ol start="183" class="post-context"
-                  id="post-46" onclick="toggle(46);">
+                  id="post-39" onclick="toggle(39);">
                 
                 <li class="post-context-line"><code>      return result unless callback and async?(*result)
 </code></li>
@@ -3590,8 +3103,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="2006"
-                  class="pre-context" id="pre-47"
-                  onclick="toggle(47);">
+                  class="pre-context" id="pre-40"
+                  onclick="toggle(40);">
                 
                 <li class="pre-context-line"><code>    end
 </code></li>
@@ -3617,14 +3130,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="2013" class="context" id="47"
-                  onclick="toggle(47);">
-                <li class="context-line" id="context-47"><code>      @stack.call(env)</code></li>
+              <ol start="2013" class="context" id="40"
+                  onclick="toggle(40);">
+                <li class="context-line" id="context-40"><code>      @stack.call(env)</code></li>
               </ol>
 
               
               <ol start="2014" class="post-context"
-                  id="post-47" onclick="toggle(47);">
+                  id="post-40" onclick="toggle(40);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -3666,8 +3179,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="1480"
-                  class="pre-context" id="pre-48"
-                  onclick="toggle(48);">
+                  class="pre-context" id="pre-41"
+                  onclick="toggle(41);">
                 
                 <li class="pre-context-line"><code>        setup_default_middleware builder
 </code></li>
@@ -3693,14 +3206,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="1487" class="context" id="48"
-                  onclick="toggle(48);">
-                <li class="context-line" id="context-48"><code>        synchronize { prototype.call(env) }</code></li>
+              <ol start="1487" class="context" id="41"
+                  onclick="toggle(41);">
+                <li class="context-line" id="context-41"><code>        synchronize { prototype.call(env) }</code></li>
               </ol>
 
               
               <ol start="1488" class="post-context"
-                  id="post-48" onclick="toggle(48);">
+                  id="post-41" onclick="toggle(41);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -3742,8 +3255,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="1780"
-                  class="pre-context" id="pre-49"
-                  onclick="toggle(49);">
+                  class="pre-context" id="pre-42"
+                  onclick="toggle(42);">
                 
                 <li class="pre-context-line"><code>      end
 </code></li>
@@ -3769,14 +3282,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="1787" class="context" id="49"
-                  onclick="toggle(49);">
-                <li class="context-line" id="context-49"><code>          yield</code></li>
+              <ol start="1787" class="context" id="42"
+                  onclick="toggle(42);">
+                <li class="context-line" id="context-42"><code>          yield</code></li>
               </ol>
 
               
               <ol start="1788" class="post-context"
-                  id="post-49" onclick="toggle(49);">
+                  id="post-42" onclick="toggle(42);">
                 
                 <li class="post-context-line"><code>        end
 </code></li>
@@ -3818,8 +3331,8 @@ Did you mean?  to_s
             <li class="code framework">
               
               <ol start="1480"
-                  class="pre-context" id="pre-50"
-                  onclick="toggle(50);">
+                  class="pre-context" id="pre-43"
+                  onclick="toggle(43);">
                 
                 <li class="pre-context-line"><code>        setup_default_middleware builder
 </code></li>
@@ -3845,14 +3358,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="1487" class="context" id="50"
-                  onclick="toggle(50);">
-                <li class="context-line" id="context-50"><code>        synchronize { prototype.call(env) }</code></li>
+              <ol start="1487" class="context" id="43"
+                  onclick="toggle(43);">
+                <li class="context-line" id="context-43"><code>        synchronize { prototype.call(env) }</code></li>
               </ol>
 
               
               <ol start="1488" class="post-context"
-                  id="post-50" onclick="toggle(50);">
+                  id="post-43" onclick="toggle(43);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -3894,8 +3407,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="23"
-                  class="pre-context" id="pre-51"
-                  onclick="toggle(51);">
+                  class="pre-context" id="pre-44"
+                  onclick="toggle(44);">
                 
                 <li class="pre-context-line"><code>    def set_cookie(cookie, uri = nil)
 </code></li>
@@ -3921,14 +3434,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="30" class="context" id="51"
-                  onclick="toggle(51);">
-                <li class="context-line" id="context-51"><code>      status, headers, body = @app.call(@last_request.env)</code></li>
+              <ol start="30" class="context" id="44"
+                  onclick="toggle(44);">
+                <li class="context-line" id="context-44"><code>      status, headers, body = @app.call(@last_request.env)</code></li>
               </ol>
 
               
               <ol start="31" class="post-context"
-                  id="post-51" onclick="toggle(51);">
+                  id="post-44" onclick="toggle(44);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -3970,8 +3483,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="237"
-                  class="pre-context" id="pre-52"
-                  onclick="toggle(52);">
+                  class="pre-context" id="pre-45"
+                  onclick="toggle(45);">
                 
                 <li class="pre-context-line"><code>        Rack::MockRequest.env_for(uri.to_s, env)
 </code></li>
@@ -3997,14 +3510,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="244" class="context" id="52"
-                  onclick="toggle(52);">
-                <li class="context-line" id="context-52"><code>        @rack_mock_session.request(uri, env)</code></li>
+              <ol start="244" class="context" id="45"
+                  onclick="toggle(45);">
+                <li class="context-line" id="context-45"><code>        @rack_mock_session.request(uri, env)</code></li>
               </ol>
 
               
               <ol start="245" class="post-context"
-                  id="post-52" onclick="toggle(52);">
+                  id="post-45" onclick="toggle(45);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -4040,19 +3553,19 @@ Did you mean?  to_s
 
             <li class="frame-info system">
               <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;rack-test-0.6.3&#x2F;lib&#x2F;rack&#x2F;test.rb</code> in
-                <code><strong>post</strong></code>
+                <code><strong>get</strong></code>
             </li>
 
             <li class="code system">
               
-              <ol start="60"
-                  class="pre-context" id="pre-53"
-                  onclick="toggle(53);">
+              <ol start="51"
+                  class="pre-context" id="pre-46"
+                  onclick="toggle(46);">
                 
-                <li class="pre-context-line"><code>
+                <li class="pre-context-line"><code>      # the app&#x27;s response in #last_response. Yield #last_response to a block
 </code></li>
                 
-                <li class="pre-context-line"><code>      # Issue a POST request for the given URI. See #get
+                <li class="pre-context-line"><code>      # if given.
 </code></li>
                 
                 <li class="pre-context-line"><code>      #
@@ -4061,26 +3574,26 @@ Did you mean?  to_s
                 <li class="pre-context-line"><code>      # Example:
 </code></li>
                 
-                <li class="pre-context-line"><code>      #   post &quot;&#x2F;signup&quot;, &quot;name&quot; =&gt; &quot;Bryan&quot;
+                <li class="pre-context-line"><code>      #   get &quot;&#x2F;&quot;
 </code></li>
                 
-                <li class="pre-context-line"><code>      def post(uri, params = {}, env = {}, &amp;block)
+                <li class="pre-context-line"><code>      def get(uri, params = {}, env = {}, &amp;block)
 </code></li>
                 
-                <li class="pre-context-line"><code>        env = env_for(uri, env.merge(:method =&gt; &quot;POST&quot;, :params =&gt; params))
+                <li class="pre-context-line"><code>        env = env_for(uri, env.merge(:method =&gt; &quot;GET&quot;, :params =&gt; params))
 </code></li>
                 
               </ol>
               
 
-              <ol start="67" class="context" id="53"
-                  onclick="toggle(53);">
-                <li class="context-line" id="context-53"><code>        process_request(uri, env, &amp;block)</code></li>
+              <ol start="58" class="context" id="46"
+                  onclick="toggle(46);">
+                <li class="context-line" id="context-46"><code>        process_request(uri, env, &amp;block)</code></li>
               </ol>
 
               
-              <ol start="68" class="post-context"
-                  id="post-53" onclick="toggle(53);">
+              <ol start="59" class="post-context"
+                  id="post-46" onclick="toggle(46);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -4088,7 +3601,7 @@ Did you mean?  to_s
                 <li class="post-context-line"><code>
 </code></li>
                 
-                <li class="post-context-line"><code>      # Issue a PUT request for the given URI. See #get
+                <li class="post-context-line"><code>      # Issue a POST request for the given URI. See #get
 </code></li>
                 
                 <li class="post-context-line"><code>      #
@@ -4097,10 +3610,10 @@ Did you mean?  to_s
                 <li class="post-context-line"><code>      # Example:
 </code></li>
                 
-                <li class="post-context-line"><code>      #   put &quot;&#x2F;&quot;
+                <li class="post-context-line"><code>      #   post &quot;&#x2F;signup&quot;, &quot;name&quot; =&gt; &quot;Bryan&quot;
 </code></li>
                 
-                <li class="post-context-line"><code>      def put(uri, params = {}, env = {}, &amp;block)
+                <li class="post-context-line"><code>      def post(uri, params = {}, env = {}, &amp;block)
 </code></li>
                 
               </ol>
@@ -4116,14 +3629,14 @@ Did you mean?  to_s
 
             <li class="frame-info app">
               <code>&#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;ruby&#x2F;2.3.0&#x2F;lib&#x2F;ruby&#x2F;2.3.0&#x2F;forwardable.rb</code> in
-                <code><strong>post</strong></code>
+                <code><strong>get</strong></code>
             </li>
 
             <li class="code app">
               
               <ol start="177"
-                  class="pre-context" id="pre-54"
-                  onclick="toggle(54);">
+                  class="pre-context" id="pre-47"
+                  onclick="toggle(47);">
                 
                 <li class="pre-context-line"><code>  #   q.queue    #=&gt; [42]
 </code></li>
@@ -4149,14 +3662,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="184" class="context" id="54"
-                  onclick="toggle(54);">
-                <li class="context-line" id="context-54"><code>          #{accessor}.__send__(:#{method}, *args, &amp;block)</code></li>
+              <ol start="184" class="context" id="47"
+                  onclick="toggle(47);">
+                <li class="context-line" id="context-47"><code>          #{accessor}.__send__(:#{method}, *args, &amp;block)</code></li>
               </ol>
 
               
               <ol start="185" class="post-context"
-                  id="post-54" onclick="toggle(54);">
+                  id="post-47" onclick="toggle(47);">
                 
                 <li class="post-context-line"><code>        rescue ::Exception
 </code></li>
@@ -4198,8 +3711,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="54"
-                  class="pre-context" id="pre-55"
-                  onclick="toggle(55);">
+                  class="pre-context" id="pre-48"
+                  onclick="toggle(48);">
                 
                 <li class="pre-context-line"><code>    new_uri.port ||= @current_port unless new_uri.default_port == @current_port
 </code></li>
@@ -4225,14 +3738,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="61" class="context" id="55"
-                  onclick="toggle(55);">
-                <li class="context-line" id="context-55"><code>    send(method, new_uri.to_s, attributes, env.merge(options[:headers] || {}))</code></li>
+              <ol start="61" class="context" id="48"
+                  onclick="toggle(48);">
+                <li class="context-line" id="context-48"><code>    send(method, new_uri.to_s, attributes, env.merge(options[:headers] || {}))</code></li>
               </ol>
 
               
               <ol start="62" class="post-context"
-                  id="post-55" onclick="toggle(55);">
+                  id="post-48" onclick="toggle(48);">
                 
                 <li class="post-context-line"><code>  end
 </code></li>
@@ -4274,8 +3787,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="29"
-                  class="pre-context" id="pre-56"
-                  onclick="toggle(56);">
+                  class="pre-context" id="pre-49"
+                  onclick="toggle(49);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -4301,14 +3814,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="36" class="context" id="56"
-                  onclick="toggle(56);">
-                <li class="context-line" id="context-56"><code>    process(method, path, attributes, env)</code></li>
+              <ol start="36" class="context" id="49"
+                  onclick="toggle(49);">
+                <li class="context-line" id="context-49"><code>    process(method, path, attributes, env)</code></li>
               </ol>
 
               
               <ol start="37" class="post-context"
-                  id="post-56" onclick="toggle(56);">
+                  id="post-49" onclick="toggle(49);">
                 
                 <li class="post-context-line"><code>    if driver.follow_redirects?
 </code></li>
@@ -4344,29 +3857,14 @@ Did you mean?  to_s
 
             <li class="frame-info system">
               <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;capybara-2.7.1&#x2F;lib&#x2F;capybara&#x2F;rack_test&#x2F;browser.rb</code> in
-                <code><strong>submit</strong></code>
+                <code><strong>follow</strong></code>
             </li>
 
             <li class="code system">
               
-              <ol start="20"
-                  class="pre-context" id="pre-57"
-                  onclick="toggle(57);">
-                
-                <li class="pre-context-line"><code>  def visit(path, attributes = {})
-</code></li>
-                
-                <li class="pre-context-line"><code>    reset_host!
-</code></li>
-                
-                <li class="pre-context-line"><code>    process_and_follow_redirects(:get, path, attributes)
-</code></li>
-                
-                <li class="pre-context-line"><code>  end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
+              <ol start="25"
+                  class="pre-context" id="pre-50"
+                  onclick="toggle(50);">
                 
                 <li class="pre-context-line"><code>  def submit(method, path, attributes)
 </code></li>
@@ -4374,65 +3872,7 @@ Did you mean?  to_s
                 <li class="pre-context-line"><code>    path = request_path if not path or path.empty?
 </code></li>
                 
-              </ol>
-              
-
-              <ol start="27" class="context" id="57"
-                  onclick="toggle(57);">
-                <li class="context-line" id="context-57"><code>    process_and_follow_redirects(method, path, attributes, {&#x27;HTTP_REFERER&#x27; =&gt; current_url})</code></li>
-              </ol>
-
-              
-              <ol start="28" class="post-context"
-                  id="post-57" onclick="toggle(57);">
-                
-                <li class="post-context-line"><code>  end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>  def follow(method, path, attributes = {})
-</code></li>
-                
-                <li class="post-context-line"><code>    return if path.gsub(&#x2F;^#{Regexp.escape(request_path)}&#x2F;, &#x27;&#x27;).start_with?(&#x27;#&#x27;) || path.downcase.start_with?(&#x27;javascript:&#x27;)
-</code></li>
-                
-                <li class="post-context-line"><code>    process_and_follow_redirects(method, path, attributes, {&#x27;HTTP_REFERER&#x27; =&gt; current_url})
-</code></li>
-                
-                <li class="post-context-line"><code>  end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info system">
-              <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;capybara-2.7.1&#x2F;lib&#x2F;capybara&#x2F;rack_test&#x2F;form.rb</code> in
-                <code><strong>submit</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="71"
-                  class="pre-context" id="pre-58"
-                  onclick="toggle(58);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    params.to_params_hash
+                <li class="pre-context-line"><code>    process_and_follow_redirects(method, path, attributes, {&#x27;HTTP_REFERER&#x27; =&gt; current_url})
 </code></li>
                 
                 <li class="pre-context-line"><code>  end
@@ -4441,26 +3881,23 @@ Did you mean?  to_s
                 <li class="pre-context-line"><code>
 </code></li>
                 
-                <li class="pre-context-line"><code>  def submit(button)
+                <li class="pre-context-line"><code>  def follow(method, path, attributes = {})
 </code></li>
                 
-                <li class="pre-context-line"><code>    action = (button &amp;&amp; button[&#x27;formaction&#x27;]) || native[&#x27;action&#x27;]
-</code></li>
-                
-                <li class="pre-context-line"><code>    method = (button &amp;&amp; button[&#x27;formmethod&#x27;]) || request_method
+                <li class="pre-context-line"><code>    return if path.gsub(&#x2F;^#{Regexp.escape(request_path)}&#x2F;, &#x27;&#x27;).start_with?(&#x27;#&#x27;) || path.downcase.start_with?(&#x27;javascript:&#x27;)
 </code></li>
                 
               </ol>
               
 
-              <ol start="78" class="context" id="58"
-                  onclick="toggle(58);">
-                <li class="context-line" id="context-58"><code>    driver.submit(method, action.to_s, params(button))</code></li>
+              <ol start="32" class="context" id="50"
+                  onclick="toggle(50);">
+                <li class="context-line" id="context-50"><code>    process_and_follow_redirects(method, path, attributes, {&#x27;HTTP_REFERER&#x27; =&gt; current_url})</code></li>
               </ol>
 
               
-              <ol start="79" class="post-context"
-                  id="post-58" onclick="toggle(58);">
+              <ol start="33" class="post-context"
+                  id="post-50" onclick="toggle(50);">
                 
                 <li class="post-context-line"><code>  end
 </code></li>
@@ -4468,19 +3905,19 @@ Did you mean?  to_s
                 <li class="post-context-line"><code>
 </code></li>
                 
-                <li class="post-context-line"><code>  def multipart?
+                <li class="post-context-line"><code>  def process_and_follow_redirects(method, path, attributes = {}, env = {})
 </code></li>
                 
-                <li class="post-context-line"><code>    self[:enctype] == &quot;multipart&#x2F;form-data&quot;
+                <li class="post-context-line"><code>    process(method, path, attributes, env)
 </code></li>
                 
-                <li class="post-context-line"><code>  end
+                <li class="post-context-line"><code>    if driver.follow_redirects?
 </code></li>
                 
-                <li class="post-context-line"><code>
+                <li class="post-context-line"><code>      driver.redirect_limit.times do
 </code></li>
                 
-                <li class="post-context-line"><code>private
+                <li class="post-context-line"><code>        process(:get, last_response[&quot;Location&quot;], {}, env) if last_response.redirect?
 </code></li>
                 
               </ol>
@@ -4501,9 +3938,21 @@ Did you mean?  to_s
 
             <li class="code system">
               
-              <ol start="55"
-                  class="pre-context" id="pre-59"
-                  onclick="toggle(59);">
+              <ol start="51"
+                  class="pre-context" id="pre-51"
+                  onclick="toggle(51);">
+                
+                <li class="pre-context-line"><code>    native.remove_attribute(&#x27;selected&#x27;)
+</code></li>
+                
+                <li class="pre-context-line"><code>  end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>  def click
+</code></li>
                 
                 <li class="pre-context-line"><code>    if tag_name == &#x27;a&#x27; &amp;&amp; !self[:href].nil?
 </code></li>
@@ -4514,43 +3963,31 @@ Did you mean?  to_s
                 <li class="pre-context-line"><code>      method ||= :get
 </code></li>
                 
-                <li class="pre-context-line"><code>      driver.follow(method, self[:href].to_s)
-</code></li>
-                
-                <li class="pre-context-line"><code>    elsif (tag_name == &#x27;input&#x27; and %w(submit image).include?(type)) or
-</code></li>
-                
-                <li class="pre-context-line"><code>        ((tag_name == &#x27;button&#x27;) and type.nil? or type == &quot;submit&quot;)
-</code></li>
-                
-                <li class="pre-context-line"><code>      associated_form = form
-</code></li>
-                
               </ol>
               
 
-              <ol start="62" class="context" id="59"
-                  onclick="toggle(59);">
-                <li class="context-line" id="context-59"><code>      Capybara::RackTest::Form.new(driver, associated_form).submit(self) if associated_form</code></li>
+              <ol start="58" class="context" id="51"
+                  onclick="toggle(51);">
+                <li class="context-line" id="context-51"><code>      driver.follow(method, self[:href].to_s)</code></li>
               </ol>
 
               
-              <ol start="63" class="post-context"
-                  id="post-59" onclick="toggle(59);">
+              <ol start="59" class="post-context"
+                  id="post-51" onclick="toggle(51);">
+                
+                <li class="post-context-line"><code>    elsif (tag_name == &#x27;input&#x27; and %w(submit image).include?(type)) or
+</code></li>
+                
+                <li class="post-context-line"><code>        ((tag_name == &#x27;button&#x27;) and type.nil? or type == &quot;submit&quot;)
+</code></li>
+                
+                <li class="post-context-line"><code>      associated_form = form
+</code></li>
+                
+                <li class="post-context-line"><code>      Capybara::RackTest::Form.new(driver, associated_form).submit(self) if associated_form
+</code></li>
                 
                 <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>  end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>  def tag_name
-</code></li>
-                
-                <li class="post-context-line"><code>    native.node_name
 </code></li>
                 
                 <li class="post-context-line"><code>  end
@@ -4578,8 +4015,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="128"
-                  class="pre-context" id="pre-60"
-                  onclick="toggle(60);">
+                  class="pre-context" id="pre-52"
+                  onclick="toggle(52);">
                 
                 <li class="pre-context-line"><code>      end
 </code></li>
@@ -4605,14 +4042,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="135" class="context" id="60"
-                  onclick="toggle(60);">
-                <li class="context-line" id="context-60"><code>        synchronize { base.click }</code></li>
+              <ol start="135" class="context" id="52"
+                  onclick="toggle(52);">
+                <li class="context-line" id="context-52"><code>        synchronize { base.click }</code></li>
               </ol>
 
               
               <ol start="136" class="post-context"
-                  id="post-60" onclick="toggle(60);">
+                  id="post-52" onclick="toggle(52);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -4654,8 +4091,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="78"
-                  class="pre-context" id="pre-61"
-                  onclick="toggle(61);">
+                  class="pre-context" id="pre-53"
+                  onclick="toggle(53);">
                 
                 <li class="pre-context-line"><code>        start_time = Capybara::Helpers.monotonic_time
 </code></li>
@@ -4681,14 +4118,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="85" class="context" id="61"
-                  onclick="toggle(61);">
-                <li class="context-line" id="context-61"><code>            yield</code></li>
+              <ol start="85" class="context" id="53"
+                  onclick="toggle(53);">
+                <li class="context-line" id="context-53"><code>            yield</code></li>
               </ol>
 
               
               <ol start="86" class="post-context"
-                  id="post-61" onclick="toggle(61);">
+                  id="post-53" onclick="toggle(53);">
                 
                 <li class="post-context-line"><code>          rescue =&gt; e
 </code></li>
@@ -4730,8 +4167,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="128"
-                  class="pre-context" id="pre-62"
-                  onclick="toggle(62);">
+                  class="pre-context" id="pre-54"
+                  onclick="toggle(54);">
                 
                 <li class="pre-context-line"><code>      end
 </code></li>
@@ -4757,14 +4194,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="135" class="context" id="62"
-                  onclick="toggle(62);">
-                <li class="context-line" id="context-62"><code>        synchronize { base.click }</code></li>
+              <ol start="135" class="context" id="54"
+                  onclick="toggle(54);">
+                <li class="context-line" id="context-54"><code>        synchronize { base.click }</code></li>
               </ol>
 
               
               <ol start="136" class="post-context"
-                  id="post-62" onclick="toggle(62);">
+                  id="post-54" onclick="toggle(54);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -4800,47 +4237,47 @@ Did you mean?  to_s
 
             <li class="frame-info system">
               <code>&#x2F;usr&#x2F;local&#x2F;lib&#x2F;ruby&#x2F;gems&#x2F;2.3.0&#x2F;gems&#x2F;capybara-2.7.1&#x2F;lib&#x2F;capybara&#x2F;node&#x2F;actions.rb</code> in
-                <code><strong>click_button</strong></code>
+                <code><strong>click_link</strong></code>
             </li>
 
             <li class="code system">
               
-              <ol start="33"
-                  class="pre-context" id="pre-63"
-                  onclick="toggle(63);">
+              <ol start="20"
+                  class="pre-context" id="pre-55"
+                  onclick="toggle(55);">
                 
-                <li class="pre-context-line"><code>      # This can be any \&lt;input&gt; element of type submit, reset, image, button or it can be a
+                <li class="pre-context-line"><code>      # Finds a link by id, text or title and clicks it. Also looks at image
 </code></li>
                 
-                <li class="pre-context-line"><code>      # \&lt;button&gt; element. All buttons can be found by their id, value, or title. \&lt;button&gt; elements can also be found
-</code></li>
-                
-                <li class="pre-context-line"><code>      # by their text content, and image \&lt;input&gt; elements by their alt attribute
+                <li class="pre-context-line"><code>      # alt text inside the link.
 </code></li>
                 
                 <li class="pre-context-line"><code>      #
 </code></li>
                 
-                <li class="pre-context-line"><code>      # @param [String] locator      Which button to find
+                <li class="pre-context-line"><code>      # @param [String] locator         text, id, title or nested image&#x27;s alt attribute
 </code></li>
                 
-                <li class="pre-context-line"><code>      # @param options     See {Capybara::Node::Finders#find_button}
+                <li class="pre-context-line"><code>      # @param options                  See {Capybara::Node::Finders#find_link}
 </code></li>
                 
-                <li class="pre-context-line"><code>      def click_button(locator, options={})
+                <li class="pre-context-line"><code>      #
+</code></li>
+                
+                <li class="pre-context-line"><code>      def click_link(locator, options={})
 </code></li>
                 
               </ol>
               
 
-              <ol start="40" class="context" id="63"
-                  onclick="toggle(63);">
-                <li class="context-line" id="context-63"><code>        find(:button, locator, options).click</code></li>
+              <ol start="27" class="context" id="55"
+                  onclick="toggle(55);">
+                <li class="context-line" id="context-55"><code>        find(:link, locator, options).click</code></li>
               </ol>
 
               
-              <ol start="41" class="post-context"
-                  id="post-63" onclick="toggle(63);">
+              <ol start="28" class="post-context"
+                  id="post-55" onclick="toggle(55);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -4854,13 +4291,13 @@ Did you mean?  to_s
                 <li class="post-context-line"><code>      #
 </code></li>
                 
-                <li class="post-context-line"><code>      # Locate a text field or text area and fill it in with the given text
+                <li class="post-context-line"><code>      # Finds a button on the page and clicks it.
 </code></li>
                 
-                <li class="post-context-line"><code>      # The field can be found via its name, id or label text.
+                <li class="post-context-line"><code>      # This can be any \&lt;input&gt; element of type submit, reset, image, button or it can be a
 </code></li>
                 
-                <li class="post-context-line"><code>      #
+                <li class="post-context-line"><code>      # \&lt;button&gt; element. All buttons can be found by their id, value, or title. \&lt;button&gt; elements can also be found
 </code></li>
                 
               </ol>
@@ -4882,8 +4319,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="692"
-                  class="pre-context" id="pre-64"
-                  onclick="toggle(64);">
+                  class="pre-context" id="pre-56"
+                  onclick="toggle(56);">
                 
                 <li class="pre-context-line"><code>    def document
 </code></li>
@@ -4909,14 +4346,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="699" class="context" id="64"
-                  onclick="toggle(64);">
-                <li class="context-line" id="context-64"><code>        current_scope.send(method, *args, &amp;block)</code></li>
+              <ol start="699" class="context" id="56"
+                  onclick="toggle(56);">
+                <li class="context-line" id="context-56"><code>        current_scope.send(method, *args, &amp;block)</code></li>
               </ol>
 
               
               <ol start="700" class="post-context"
-                  id="post-64" onclick="toggle(64);">
+                  id="post-56" onclick="toggle(56);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -4958,8 +4395,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="45"
-                  class="pre-context" id="pre-65"
-                  onclick="toggle(65);">
+                  class="pre-context" id="pre-57"
+                  onclick="toggle(57);">
                 
                 <li class="pre-context-line"><code>    #
 </code></li>
@@ -4985,14 +4422,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="52" class="context" id="65"
-                  onclick="toggle(65);">
-                <li class="context-line" id="context-65"><code>        page.send method, *args, &amp;block</code></li>
+              <ol start="52" class="context" id="57"
+                  onclick="toggle(57);">
+                <li class="context-line" id="context-57"><code>        page.send method, *args, &amp;block</code></li>
               </ol>
 
               
               <ol start="53" class="post-context"
-                  id="post-65" onclick="toggle(65);">
+                  id="post-57" onclick="toggle(57);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -5030,47 +4467,50 @@ Did you mean?  to_s
 
             <li class="code app">
               
-              <ol start="14"
-                  class="pre-context" id="pre-66"
-                  onclick="toggle(66);">
+              <ol start="58"
+                  class="pre-context" id="pre-58"
+                  onclick="toggle(58);">
                 
-                <li class="pre-context-line"><code>
+                <li class="pre-context-line"><code>    doctor.save
 </code></li>
                 
-                <li class="pre-context-line"><code>  it &quot;add a doctor&quot; do
+                <li class="pre-context-line"><code>    doctor2 = Doctor.new({first_name: &#x27;Testfirst2&#x27;, last_name: &#x27;Testlast2&#x27;, doctor_id: nil, specialty_id: &#x27;3&#x27;})
 </code></li>
                 
-                <li class="pre-context-line"><code>    visit &#x27;&#x2F;admin&#x27;
+                <li class="pre-context-line"><code>    doctor2.save
 </code></li>
                 
-                <li class="pre-context-line"><code>    click_link &#x27;add_doctor&#x27;
+                <li class="pre-context-line"><code>    patient = Patient.new({first_name: &#x27;Patient&#x27;, last_name: &#x27;Patient&#x27;, patient_id: nil, doctor_id: nil, birthdate: &#x27;2010-08-10&#x27;})
 </code></li>
                 
-                <li class="pre-context-line"><code>    fill_in &#x27;first_name&#x27;, :with =&gt; &#x27;Test&#x27;
+                <li class="pre-context-line"><code>    patient.save
 </code></li>
                 
-                <li class="pre-context-line"><code>    fill_in &#x27;last_name&#x27;, :with =&gt; &#x27;Test&#x27;
+                <li class="pre-context-line"><code>    patient.assign(doctor2.doctor_id)
 </code></li>
                 
-                <li class="pre-context-line"><code>    select &#x27;Pediatrics&#x27;, :from =&gt; &#x27;specialty&#x27;
+                <li class="pre-context-line"><code>    visit &#x27;&#x2F;doctors&#x27;
 </code></li>
                 
               </ol>
               
 
-              <ol start="21" class="context" id="66"
-                  onclick="toggle(66);">
-                <li class="context-line" id="context-66"><code>    click_button &#x27;Add&#x27;</code></li>
+              <ol start="65" class="context" id="58"
+                  onclick="toggle(58);">
+                <li class="context-line" id="context-58"><code>    click_link &#x27;Testlast2, Testfirst2&#x27;</code></li>
               </ol>
 
               
-              <ol start="22" class="post-context"
-                  id="post-66" onclick="toggle(66);">
+              <ol start="66" class="post-context"
+                  id="post-58" onclick="toggle(58);">
                 
                 <li class="post-context-line"><code>    save_and_open_page
 </code></li>
                 
-                <li class="post-context-line"><code>    expect(page).to have_content(&#x27;Test&#x27;)
+                <li class="post-context-line"><code>    expect(page).to have_content(&#x27;Testfirst2 Testlast2&#x27;)
+</code></li>
+                
+                <li class="post-context-line"><code>    expect(page).to have_content(&#x27;Patient Patient&#x27;)
 </code></li>
                 
                 <li class="post-context-line"><code>  end
@@ -5082,10 +4522,7 @@ Did you mean?  to_s
                 <li class="post-context-line"><code>
 </code></li>
                 
-                <li class="post-context-line"><code>describe &#x27;doctor path&#x27;, {:type =&gt; :feature} do
-</code></li>
-                
-                <li class="post-context-line"><code>  it &quot;gets to the doctor page&quot; do
+                <li class="post-context-line"><code>describe &#x27;patient path&#x27;, {:type =&gt; :feature} do
 </code></li>
                 
               </ol>
@@ -5107,8 +4544,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="245"
-                  class="pre-context" id="pre-67"
-                  onclick="toggle(67);">
+                  class="pre-context" id="pre-59"
+                  onclick="toggle(59);">
                 
                 <li class="pre-context-line"><code>        begin
 </code></li>
@@ -5134,14 +4571,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="252" class="context" id="67"
-                  onclick="toggle(67);">
-                <li class="context-line" id="context-67"><code>                @example_group_instance.instance_exec(self, &amp;@example_block)</code></li>
+              <ol start="252" class="context" id="59"
+                  onclick="toggle(59);">
+                <li class="context-line" id="context-59"><code>                @example_group_instance.instance_exec(self, &amp;@example_block)</code></li>
               </ol>
 
               
               <ol start="253" class="post-context"
-                  id="post-67" onclick="toggle(67);">
+                  id="post-59" onclick="toggle(59);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -5183,8 +4620,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="245"
-                  class="pre-context" id="pre-68"
-                  onclick="toggle(68);">
+                  class="pre-context" id="pre-60"
+                  onclick="toggle(60);">
                 
                 <li class="pre-context-line"><code>        begin
 </code></li>
@@ -5210,14 +4647,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="252" class="context" id="68"
-                  onclick="toggle(68);">
-                <li class="context-line" id="context-68"><code>                @example_group_instance.instance_exec(self, &amp;@example_block)</code></li>
+              <ol start="252" class="context" id="60"
+                  onclick="toggle(60);">
+                <li class="context-line" id="context-60"><code>                @example_group_instance.instance_exec(self, &amp;@example_block)</code></li>
               </ol>
 
               
               <ol start="253" class="post-context"
-                  id="post-68" onclick="toggle(68);">
+                  id="post-60" onclick="toggle(60);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -5259,8 +4696,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="487"
-                  class="pre-context" id="pre-69"
-                  onclick="toggle(69);">
+                  class="pre-context" id="pre-61"
+                  onclick="toggle(61);">
                 
                 <li class="pre-context-line"><code>        @example_group_instance.setup_mocks_for_rspec
 </code></li>
@@ -5286,14 +4723,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="494" class="context" id="69"
-                  onclick="toggle(69);">
-                <li class="context-line" id="context-69"><code>        with_around_example_hooks { yield }</code></li>
+              <ol start="494" class="context" id="61"
+                  onclick="toggle(61);">
+                <li class="context-line" id="context-61"><code>        with_around_example_hooks { yield }</code></li>
               </ol>
 
               
               <ol start="495" class="post-context"
-                  id="post-69" onclick="toggle(69);">
+                  id="post-61" onclick="toggle(61);">
                 
                 <li class="post-context-line"><code>      ensure
 </code></li>
@@ -5335,8 +4772,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="444"
-                  class="pre-context" id="pre-70"
-                  onclick="toggle(70);">
+                  class="pre-context" id="pre-62"
+                  onclick="toggle(62);">
                 
                 <li class="pre-context-line"><code>    private
 </code></li>
@@ -5362,14 +4799,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="451" class="context" id="70"
-                  onclick="toggle(70);">
-                <li class="context-line" id="context-70"><code>        hooks.run(:around, :example, self) { yield }</code></li>
+              <ol start="451" class="context" id="62"
+                  onclick="toggle(62);">
+                <li class="context-line" id="context-62"><code>        hooks.run(:around, :example, self) { yield }</code></li>
               </ol>
 
               
               <ol start="452" class="post-context"
-                  id="post-70" onclick="toggle(70);">
+                  id="post-62" onclick="toggle(62);">
                 
                 <li class="post-context-line"><code>      rescue Support::AllExceptionsExceptOnesWeMustNotRescue =&gt; e
 </code></li>
@@ -5411,8 +4848,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="464"
-                  class="pre-context" id="pre-71"
-                  onclick="toggle(71);">
+                  class="pre-context" id="pre-63"
+                  onclick="toggle(63);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -5438,14 +4875,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="471" class="context" id="71"
-                  onclick="toggle(71);">
-                <li class="context-line" id="context-71"><code>            when :around then run_around_example_hooks_for(example_or_group) { yield }</code></li>
+              <ol start="471" class="context" id="63"
+                  onclick="toggle(63);">
+                <li class="context-line" id="context-63"><code>            when :around then run_around_example_hooks_for(example_or_group) { yield }</code></li>
               </ol>
 
               
               <ol start="472" class="post-context"
-                  id="post-71" onclick="toggle(71);">
+                  id="post-63" onclick="toggle(63);">
                 
                 <li class="post-context-line"><code>            end
 </code></li>
@@ -5487,8 +4924,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="602"
-                  class="pre-context" id="pre-72"
-                  onclick="toggle(72);">
+                  class="pre-context" id="pre-64"
+                  onclick="toggle(64);">
                 
                 <li class="pre-context-line"><code>        end
 </code></li>
@@ -5514,14 +4951,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="609" class="context" id="72"
-                  onclick="toggle(72);">
-                <li class="context-line" id="context-72"><code>          return yield if hooks.empty? # exit early to avoid the extra allocation cost of `Example::Procsy`</code></li>
+              <ol start="609" class="context" id="64"
+                  onclick="toggle(64);">
+                <li class="context-line" id="context-64"><code>          return yield if hooks.empty? # exit early to avoid the extra allocation cost of `Example::Procsy`</code></li>
               </ol>
 
               
               <ol start="610" class="post-context"
-                  id="post-72" onclick="toggle(72);">
+                  id="post-64" onclick="toggle(64);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -5563,8 +5000,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="464"
-                  class="pre-context" id="pre-73"
-                  onclick="toggle(73);">
+                  class="pre-context" id="pre-65"
+                  onclick="toggle(65);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -5590,14 +5027,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="471" class="context" id="73"
-                  onclick="toggle(73);">
-                <li class="context-line" id="context-73"><code>            when :around then run_around_example_hooks_for(example_or_group) { yield }</code></li>
+              <ol start="471" class="context" id="65"
+                  onclick="toggle(65);">
+                <li class="context-line" id="context-65"><code>            when :around then run_around_example_hooks_for(example_or_group) { yield }</code></li>
               </ol>
 
               
               <ol start="472" class="post-context"
-                  id="post-73" onclick="toggle(73);">
+                  id="post-65" onclick="toggle(65);">
                 
                 <li class="post-context-line"><code>            end
 </code></li>
@@ -5639,8 +5076,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="444"
-                  class="pre-context" id="pre-74"
-                  onclick="toggle(74);">
+                  class="pre-context" id="pre-66"
+                  onclick="toggle(66);">
                 
                 <li class="pre-context-line"><code>    private
 </code></li>
@@ -5666,14 +5103,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="451" class="context" id="74"
-                  onclick="toggle(74);">
-                <li class="context-line" id="context-74"><code>        hooks.run(:around, :example, self) { yield }</code></li>
+              <ol start="451" class="context" id="66"
+                  onclick="toggle(66);">
+                <li class="context-line" id="context-66"><code>        hooks.run(:around, :example, self) { yield }</code></li>
               </ol>
 
               
               <ol start="452" class="post-context"
-                  id="post-74" onclick="toggle(74);">
+                  id="post-66" onclick="toggle(66);">
                 
                 <li class="post-context-line"><code>      rescue Support::AllExceptionsExceptOnesWeMustNotRescue =&gt; e
 </code></li>
@@ -5715,8 +5152,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="487"
-                  class="pre-context" id="pre-75"
-                  onclick="toggle(75);">
+                  class="pre-context" id="pre-67"
+                  onclick="toggle(67);">
                 
                 <li class="pre-context-line"><code>        @example_group_instance.setup_mocks_for_rspec
 </code></li>
@@ -5742,14 +5179,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="494" class="context" id="75"
-                  onclick="toggle(75);">
-                <li class="context-line" id="context-75"><code>        with_around_example_hooks { yield }</code></li>
+              <ol start="494" class="context" id="67"
+                  onclick="toggle(67);">
+                <li class="context-line" id="context-67"><code>        with_around_example_hooks { yield }</code></li>
               </ol>
 
               
               <ol start="495" class="post-context"
-                  id="post-75" onclick="toggle(75);">
+                  id="post-67" onclick="toggle(67);">
                 
                 <li class="post-context-line"><code>      ensure
 </code></li>
@@ -5791,8 +5228,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="242"
-                  class="pre-context" id="pre-76"
-                  onclick="toggle(76);">
+                  class="pre-context" id="pre-68"
+                  onclick="toggle(68);">
                 
                 <li class="pre-context-line"><code>        start(reporter)
 </code></li>
@@ -5818,14 +5255,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="249" class="context" id="76"
-                  onclick="toggle(76);">
-                <li class="context-line" id="context-76"><code>            with_around_and_singleton_context_hooks do</code></li>
+              <ol start="249" class="context" id="68"
+                  onclick="toggle(68);">
+                <li class="context-line" id="context-68"><code>            with_around_and_singleton_context_hooks do</code></li>
               </ol>
 
               
               <ol start="250" class="post-context"
-                  id="post-76" onclick="toggle(76);">
+                  id="post-68" onclick="toggle(68);">
                 
                 <li class="post-context-line"><code>              begin
 </code></li>
@@ -5867,8 +5304,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="620"
-                  class="pre-context" id="pre-77"
-                  onclick="toggle(77);">
+                  class="pre-context" id="pre-69"
+                  onclick="toggle(69);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -5894,14 +5331,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="627" class="context" id="77"
-                  onclick="toggle(77);">
-                <li class="context-line" id="context-77"><code>          succeeded = example.run(instance, reporter)</code></li>
+              <ol start="627" class="context" id="69"
+                  onclick="toggle(69);">
+                <li class="context-line" id="context-69"><code>          succeeded = example.run(instance, reporter)</code></li>
               </ol>
 
               
               <ol start="628" class="post-context"
-                  id="post-77" onclick="toggle(77);">
+                  id="post-69" onclick="toggle(69);">
                 
                 <li class="post-context-line"><code>          if !succeeded &amp;&amp; reporter.fail_fast_limit_met?
 </code></li>
@@ -5943,8 +5380,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="616"
-                  class="pre-context" id="pre-78"
-                  onclick="toggle(78);">
+                  class="pre-context" id="pre-70"
+                  onclick="toggle(70);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -5970,14 +5407,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="623" class="context" id="78"
-                  onclick="toggle(78);">
-                <li class="context-line" id="context-78"><code>        ordering_strategy.order(filtered_examples).map do |example|</code></li>
+              <ol start="623" class="context" id="70"
+                  onclick="toggle(70);">
+                <li class="context-line" id="context-70"><code>        ordering_strategy.order(filtered_examples).map do |example|</code></li>
               </ol>
 
               
               <ol start="624" class="post-context"
-                  id="post-78" onclick="toggle(78);">
+                  id="post-70" onclick="toggle(70);">
                 
                 <li class="post-context-line"><code>          next if RSpec.world.wants_to_quit
 </code></li>
@@ -6019,8 +5456,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="616"
-                  class="pre-context" id="pre-79"
-                  onclick="toggle(79);">
+                  class="pre-context" id="pre-71"
+                  onclick="toggle(71);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -6046,14 +5483,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="623" class="context" id="79"
-                  onclick="toggle(79);">
-                <li class="context-line" id="context-79"><code>        ordering_strategy.order(filtered_examples).map do |example|</code></li>
+              <ol start="623" class="context" id="71"
+                  onclick="toggle(71);">
+                <li class="context-line" id="context-71"><code>        ordering_strategy.order(filtered_examples).map do |example|</code></li>
               </ol>
 
               
               <ol start="624" class="post-context"
-                  id="post-79" onclick="toggle(79);">
+                  id="post-71" onclick="toggle(71);">
                 
                 <li class="post-context-line"><code>          next if RSpec.world.wants_to_quit
 </code></li>
@@ -6095,8 +5532,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="582"
-                  class="pre-context" id="pre-80"
-                  onclick="toggle(80);">
+                  class="pre-context" id="pre-72"
+                  onclick="toggle(72);">
                 
                 <li class="pre-context-line"><code>      def self.run(reporter=RSpec::Core::NullReporter)
 </code></li>
@@ -6122,14 +5559,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="589" class="context" id="80"
-                  onclick="toggle(80);">
-                <li class="context-line" id="context-80"><code>          result_for_this_group = run_examples(reporter)</code></li>
+              <ol start="589" class="context" id="72"
+                  onclick="toggle(72);">
+                <li class="context-line" id="context-72"><code>          result_for_this_group = run_examples(reporter)</code></li>
               </ol>
 
               
               <ol start="590" class="post-context"
-                  id="post-80" onclick="toggle(80);">
+                  id="post-72" onclick="toggle(72);">
                 
                 <li class="post-context-line"><code>          results_for_descendants = ordering_strategy.order(children).map { |child| child.run(reporter) }.all?
 </code></li>
@@ -6171,8 +5608,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="106"
-                  class="pre-context" id="pre-81"
-                  onclick="toggle(81);">
+                  class="pre-context" id="pre-73"
+                  onclick="toggle(73);">
                 
                 <li class="pre-context-line"><code>      # @param example_groups [Array&lt;RSpec::Core::ExampleGroup&gt;] groups to run
 </code></li>
@@ -6198,14 +5635,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="113" class="context" id="81"
-                  onclick="toggle(81);">
-                <li class="context-line" id="context-81"><code>            example_groups.map { |g| g.run(reporter) }.all? ? 0 : @configuration.failure_exit_code</code></li>
+              <ol start="113" class="context" id="73"
+                  onclick="toggle(73);">
+                <li class="context-line" id="context-73"><code>            example_groups.map { |g| g.run(reporter) }.all? ? 0 : @configuration.failure_exit_code</code></li>
               </ol>
 
               
               <ol start="114" class="post-context"
-                  id="post-81" onclick="toggle(81);">
+                  id="post-73" onclick="toggle(73);">
                 
                 <li class="post-context-line"><code>          end
 </code></li>
@@ -6247,8 +5684,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="106"
-                  class="pre-context" id="pre-82"
-                  onclick="toggle(82);">
+                  class="pre-context" id="pre-74"
+                  onclick="toggle(74);">
                 
                 <li class="pre-context-line"><code>      # @param example_groups [Array&lt;RSpec::Core::ExampleGroup&gt;] groups to run
 </code></li>
@@ -6274,14 +5711,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="113" class="context" id="82"
-                  onclick="toggle(82);">
-                <li class="context-line" id="context-82"><code>            example_groups.map { |g| g.run(reporter) }.all? ? 0 : @configuration.failure_exit_code</code></li>
+              <ol start="113" class="context" id="74"
+                  onclick="toggle(74);">
+                <li class="context-line" id="context-74"><code>            example_groups.map { |g| g.run(reporter) }.all? ? 0 : @configuration.failure_exit_code</code></li>
               </ol>
 
               
               <ol start="114" class="post-context"
-                  id="post-82" onclick="toggle(82);">
+                  id="post-74" onclick="toggle(74);">
                 
                 <li class="post-context-line"><code>          end
 </code></li>
@@ -6323,8 +5760,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="106"
-                  class="pre-context" id="pre-83"
-                  onclick="toggle(83);">
+                  class="pre-context" id="pre-75"
+                  onclick="toggle(75);">
                 
                 <li class="pre-context-line"><code>      # @param example_groups [Array&lt;RSpec::Core::ExampleGroup&gt;] groups to run
 </code></li>
@@ -6350,14 +5787,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="113" class="context" id="83"
-                  onclick="toggle(83);">
-                <li class="context-line" id="context-83"><code>            example_groups.map { |g| g.run(reporter) }.all? ? 0 : @configuration.failure_exit_code</code></li>
+              <ol start="113" class="context" id="75"
+                  onclick="toggle(75);">
+                <li class="context-line" id="context-75"><code>            example_groups.map { |g| g.run(reporter) }.all? ? 0 : @configuration.failure_exit_code</code></li>
               </ol>
 
               
               <ol start="114" class="post-context"
-                  id="post-83" onclick="toggle(83);">
+                  id="post-75" onclick="toggle(75);">
                 
                 <li class="post-context-line"><code>          end
 </code></li>
@@ -6399,8 +5836,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="1829"
-                  class="pre-context" id="pre-84"
-                  onclick="toggle(84);">
+                  class="pre-context" id="pre-76"
+                  onclick="toggle(76);">
                 
                 <li class="pre-context-line"><code>      # @private
 </code></li>
@@ -6426,14 +5863,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="1836" class="context" id="84"
-                  onclick="toggle(84);">
-                <li class="context-line" id="context-84"><code>          yield</code></li>
+              <ol start="1836" class="context" id="76"
+                  onclick="toggle(76);">
+                <li class="context-line" id="context-76"><code>          yield</code></li>
               </ol>
 
               
               <ol start="1837" class="post-context"
-                  id="post-84" onclick="toggle(84);">
+                  id="post-76" onclick="toggle(76);">
                 
                 <li class="post-context-line"><code>        ensure
 </code></li>
@@ -6475,8 +5912,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="105"
-                  class="pre-context" id="pre-85"
-                  onclick="toggle(85);">
+                  class="pre-context" id="pre-77"
+                  onclick="toggle(77);">
                 
                 <li class="pre-context-line"><code>      #
 </code></li>
@@ -6502,14 +5939,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="112" class="context" id="85"
-                  onclick="toggle(85);">
-                <li class="context-line" id="context-85"><code>          @configuration.with_suite_hooks do</code></li>
+              <ol start="112" class="context" id="77"
+                  onclick="toggle(77);">
+                <li class="context-line" id="context-77"><code>          @configuration.with_suite_hooks do</code></li>
               </ol>
 
               
               <ol start="113" class="post-context"
-                  id="post-85" onclick="toggle(85);">
+                  id="post-77" onclick="toggle(77);">
                 
                 <li class="post-context-line"><code>            example_groups.map { |g| g.run(reporter) }.all? ? 0 : @configuration.failure_exit_code
 </code></li>
@@ -6551,8 +5988,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="70"
-                  class="pre-context" id="pre-86"
-                  onclick="toggle(86);">
+                  class="pre-context" id="pre-78"
+                  onclick="toggle(78);">
                 
                 <li class="pre-context-line"><code>    #     reporter.report(group.examples.size) do |r|
 </code></li>
@@ -6578,14 +6015,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="77" class="context" id="86"
-                  onclick="toggle(86);">
-                <li class="context-line" id="context-86"><code>        yield self</code></li>
+              <ol start="77" class="context" id="78"
+                  onclick="toggle(78);">
+                <li class="context-line" id="context-78"><code>        yield self</code></li>
               </ol>
 
               
               <ol start="78" class="post-context"
-                  id="post-86" onclick="toggle(86);">
+                  id="post-78" onclick="toggle(78);">
                 
                 <li class="post-context-line"><code>      ensure
 </code></li>
@@ -6627,8 +6064,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="104"
-                  class="pre-context" id="pre-87"
-                  onclick="toggle(87);">
+                  class="pre-context" id="pre-79"
+                  onclick="toggle(79);">
                 
                 <li class="pre-context-line"><code>      # Runs the provided example groups.
 </code></li>
@@ -6654,14 +6091,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="111" class="context" id="87"
-                  onclick="toggle(87);">
-                <li class="context-line" id="context-87"><code>        @configuration.reporter.report(@world.example_count(example_groups)) do |reporter|</code></li>
+              <ol start="111" class="context" id="79"
+                  onclick="toggle(79);">
+                <li class="context-line" id="context-79"><code>        @configuration.reporter.report(@world.example_count(example_groups)) do |reporter|</code></li>
               </ol>
 
               
               <ol start="112" class="post-context"
-                  id="post-87" onclick="toggle(87);">
+                  id="post-79" onclick="toggle(79);">
                 
                 <li class="post-context-line"><code>          @configuration.with_suite_hooks do
 </code></li>
@@ -6703,8 +6140,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="80"
-                  class="pre-context" id="pre-88"
-                  onclick="toggle(88);">
+                  class="pre-context" id="pre-80"
+                  onclick="toggle(80);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -6730,14 +6167,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="87" class="context" id="88"
-                  onclick="toggle(88);">
-                <li class="context-line" id="context-88"><code>        run_specs(@world.ordered_example_groups).tap do</code></li>
+              <ol start="87" class="context" id="80"
+                  onclick="toggle(80);">
+                <li class="context-line" id="context-80"><code>        run_specs(@world.ordered_example_groups).tap do</code></li>
               </ol>
 
               
               <ol start="88" class="post-context"
-                  id="post-88" onclick="toggle(88);">
+                  id="post-80" onclick="toggle(80);">
                 
                 <li class="post-context-line"><code>          persist_example_statuses
 </code></li>
@@ -6779,8 +6216,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="64"
-                  class="pre-context" id="pre-89"
-                  onclick="toggle(89);">
+                  class="pre-context" id="pre-81"
+                  onclick="toggle(81);">
                 
                 <li class="pre-context-line"><code>      def self.run(args, err=$stderr, out=$stdout)
 </code></li>
@@ -6806,14 +6243,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="71" class="context" id="89"
-                  onclick="toggle(89);">
-                <li class="context-line" id="context-89"><code>          new(options).run(err, out)</code></li>
+              <ol start="71" class="context" id="81"
+                  onclick="toggle(81);">
+                <li class="context-line" id="context-81"><code>          new(options).run(err, out)</code></li>
               </ol>
 
               
               <ol start="72" class="post-context"
-                  id="post-89" onclick="toggle(89);">
+                  id="post-81" onclick="toggle(81);">
                 
                 <li class="post-context-line"><code>        end
 </code></li>
@@ -6855,8 +6292,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="38"
-                  class="pre-context" id="pre-90"
-                  onclick="toggle(90);">
+                  class="pre-context" id="pre-82"
+                  onclick="toggle(82);">
                 
                 <li class="pre-context-line"><code>        invoke
 </code></li>
@@ -6882,14 +6319,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="45" class="context" id="90"
-                  onclick="toggle(90);">
-                <li class="context-line" id="context-90"><code>        status = run(ARGV, $stderr, $stdout).to_i</code></li>
+              <ol start="45" class="context" id="82"
+                  onclick="toggle(82);">
+                <li class="context-line" id="context-82"><code>        status = run(ARGV, $stderr, $stdout).to_i</code></li>
               </ol>
 
               
               <ol start="46" class="post-context"
-                  id="post-90" onclick="toggle(90);">
+                  id="post-82" onclick="toggle(82);">
                 
                 <li class="post-context-line"><code>        exit(status) if status != 0
 </code></li>
@@ -6931,8 +6368,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="1"
-                  class="pre-context" id="pre-91"
-                  onclick="toggle(91);">
+                  class="pre-context" id="pre-83"
+                  onclick="toggle(83);">
                 
                 <li class="pre-context-line"><code>#!&#x2F;usr&#x2F;bin&#x2F;env ruby
 </code></li>
@@ -6946,14 +6383,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="4" class="context" id="91"
-                  onclick="toggle(91);">
-                <li class="context-line" id="context-91"><code>RSpec::Core::Runner.invoke</code></li>
+              <ol start="4" class="context" id="83"
+                  onclick="toggle(83);">
+                <li class="context-line" id="context-83"><code>RSpec::Core::Runner.invoke</code></li>
               </ol>
 
               
               <ol start="5" class="post-context"
-                  id="post-91" onclick="toggle(91);">
+                  id="post-83" onclick="toggle(83);">
                 
               </ol>
               
@@ -6974,8 +6411,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="16"
-                  class="pre-context" id="pre-92"
-                  onclick="toggle(92);">
+                  class="pre-context" id="pre-84"
+                  onclick="toggle(84);">
                 
                 <li class="pre-context-line"><code>  if str =~ &#x2F;\A_(.*)_\z&#x2F; and Gem::Version.correct?($1) then
 </code></li>
@@ -7001,14 +6438,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="23" class="context" id="92"
-                  onclick="toggle(92);">
-                <li class="context-line" id="context-92"><code>load Gem.bin_path(&#x27;rspec-core&#x27;, &#x27;rspec&#x27;, version)</code></li>
+              <ol start="23" class="context" id="84"
+                  onclick="toggle(84);">
+                <li class="context-line" id="context-84"><code>load Gem.bin_path(&#x27;rspec-core&#x27;, &#x27;rspec&#x27;, version)</code></li>
               </ol>
 
               
               <ol start="24" class="post-context"
-                  id="post-92" onclick="toggle(92);">
+                  id="post-84" onclick="toggle(84);">
                 
               </ol>
               
@@ -7029,8 +6466,8 @@ Did you mean?  to_s
             <li class="code system">
               
               <ol start="16"
-                  class="pre-context" id="pre-93"
-                  onclick="toggle(93);">
+                  class="pre-context" id="pre-85"
+                  onclick="toggle(85);">
                 
                 <li class="pre-context-line"><code>  if str =~ &#x2F;\A_(.*)_\z&#x2F; and Gem::Version.correct?($1) then
 </code></li>
@@ -7056,14 +6493,14 @@ Did you mean?  to_s
               </ol>
               
 
-              <ol start="23" class="context" id="93"
-                  onclick="toggle(93);">
-                <li class="context-line" id="context-93"><code>load Gem.bin_path(&#x27;rspec-core&#x27;, &#x27;rspec&#x27;, version)</code></li>
+              <ol start="23" class="context" id="85"
+                  onclick="toggle(85);">
+                <li class="context-line" id="context-85"><code>load Gem.bin_path(&#x27;rspec-core&#x27;, &#x27;rspec&#x27;, version)</code></li>
               </ol>
 
               
               <ol start="24" class="post-context"
-                  id="post-93" onclick="toggle(93);">
+                  id="post-85" onclick="toggle(85);">
                 
               </ol>
               
@@ -7089,33 +6526,7 @@ Did you mean?  to_s
     <div id="post">
       <h3 id="post-info">POST</h3>
       
-        <table class="req">
-          <tr>
-            <th>Variable</th>
-            <th>Value</th>
-          </tr>
-          
-          <tr>
-            <td>first_name</td>
-            <td class="code"><div>&quot;Test&quot;</div></td>
-          </tr>
-          
-          <tr>
-            <td>last_name</td>
-            <td class="code"><div>&quot;Test&quot;</div></td>
-          </tr>
-          
-          <tr>
-            <td>specialty</td>
-            <td class="code"><div>&quot;1&quot;</div></td>
-          </tr>
-          
-          <tr>
-            <td>submit</td>
-            <td class="code"><div>&quot;&quot;</div></td>
-          </tr>
-          
-        </table>
+        <p class="no-data">No POST data.</p>
       
       <div class="clear"></div>
     </div> <!-- /POST -->
@@ -7138,12 +6549,7 @@ Did you mean?  to_s
          
          <tr>
            <td>CONTENT_LENGTH</td>
-           <td class="code"><div>50</div></td>
-         </tr>
-         
-         <tr>
-           <td>CONTENT_TYPE</td>
-           <td class="code"><div>application&#x2F;x-www-form-urlencoded</div></td>
+           <td class="code"><div>0</div></td>
          </tr>
          
          <tr>
@@ -7163,12 +6569,12 @@ Did you mean?  to_s
          
          <tr>
            <td>HTTP_REFERER</td>
-           <td class="code"><div>http:&#x2F;&#x2F;www.example.com&#x2F;doctor&#x2F;new</div></td>
+           <td class="code"><div>http:&#x2F;&#x2F;www.example.com&#x2F;doctors</div></td>
          </tr>
          
          <tr>
            <td>PATH_INFO</td>
-           <td class="code"><div>&#x2F;admin&#x2F;doctor</div></td>
+           <td class="code"><div>&#x2F;doctor&#x2F;353</div></td>
          </tr>
          
          <tr>
@@ -7183,7 +6589,7 @@ Did you mean?  to_s
          
          <tr>
            <td>REQUEST_METHOD</td>
-           <td class="code"><div>POST</div></td>
+           <td class="code"><div>GET</div></td>
          </tr>
          
          <tr>
@@ -7203,17 +6609,17 @@ Did you mean?  to_s
          
          <tr>
            <td>rack.errors</td>
-           <td class="code"><div>#&lt;Object:0x007fef82c5b010&gt;</div></td>
+           <td class="code"><div>#&lt;Object:0x007fb411108ef8&gt;</div></td>
          </tr>
          
          <tr>
            <td>rack.input</td>
-           <td class="code"><div>#&lt;StringIO:0x007fef80980018&gt;</div></td>
+           <td class="code"><div>#&lt;StringIO:0x007fb412d2ca08&gt;</div></td>
          </tr>
          
          <tr>
            <td>rack.logger</td>
-           <td class="code"><div>#&lt;Logger:0x007fef810a7530 @progname=nil, @level=1, @default_formatter=#&lt;Logger::Formatter:0x007fef810a7468 @datetime_format=nil&gt;, @formatter=nil, @logdev=#&lt;Logger::LogDevice:0x007fef810a73c8 @shift_size=nil, @shift_age=nil, @filename=nil, @dev=#&lt;StringIO:0x007fef809804c8&gt;, @mon_owner=nil, @mon_count=0, @mon_mutex=#&lt;Thread::Mutex:0x007fef810a7328&gt;&gt;&gt;</div></td>
+           <td class="code"><div>#&lt;Logger:0x007fb412d2c558 @progname=nil, @level=1, @default_formatter=#&lt;Logger::Formatter:0x007fb412d2c530 @datetime_format=nil&gt;, @formatter=nil, @logdev=#&lt;Logger::LogDevice:0x007fb412d2c4e0 @shift_size=nil, @shift_age=nil, @filename=nil, @dev=#&lt;StringIO:0x007fb412d2caa8&gt;, @mon_owner=nil, @mon_count=0, @mon_mutex=#&lt;Thread::Mutex:0x007fb412d2c4b8&gt;&gt;&gt;</div></td>
          </tr>
          
          <tr>
@@ -7234,21 +6640,6 @@ Did you mean?  to_s
          <tr>
            <td>rack.request.cookie_string</td>
            <td class="code"><div></div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.request.form_hash</td>
-           <td class="code"><div>{&quot;first_name&quot;=&gt;&quot;Test&quot;, &quot;last_name&quot;=&gt;&quot;Test&quot;, &quot;specialty&quot;=&gt;&quot;1&quot;, &quot;submit&quot;=&gt;&quot;&quot;}</div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.request.form_input</td>
-           <td class="code"><div>#&lt;StringIO:0x007fef80980018&gt;</div></td>
-         </tr>
-         
-         <tr>
-           <td>rack.request.form_vars</td>
-           <td class="code"><div>first_name=Test&amp;last_name=Test&amp;specialty=1&amp;submit=</div></td>
          </tr>
          
          <tr>
@@ -7283,7 +6674,7 @@ Did you mean?  to_s
          
          <tr>
            <td>sinatra.accept</td>
-           <td class="code"><div>[#&lt;Sinatra::Request::AcceptEntry:0x007fef811a6300 @entry=&quot;*&#x2F;*&quot;, @type=&quot;*&#x2F;*&quot;, @params={}, @q=1.0&gt;]</div></td>
+           <td class="code"><div>[#&lt;Sinatra::Request::AcceptEntry:0x007fb412d35d38 @entry=&quot;*&#x2F;*&quot;, @type=&quot;*&#x2F;*&quot;, @params={}, @q=1.0&gt;]</div></td>
          </tr>
          
          <tr>
@@ -7293,15 +6684,15 @@ Did you mean?  to_s
          
          <tr>
            <td>sinatra.error</td>
-           <td class="code"><div>#&lt;NoMethodError: undefined method `to_i&#x27; for #&lt;PG::Result:0x007fef81185f38&gt;
-Did you mean?  to_s
-               to_h
-               to_a&gt;</div></td>
+           <td class="code"><div>#&lt;PG::SyntaxError: ERROR:  syntax error at or near &quot;;&quot;
+LINE 1: SELECT * FROM doctors WHERE doctor_id = ;
+                                                ^
+&gt;</div></td>
          </tr>
          
          <tr>
            <td>sinatra.route</td>
-           <td class="code"><div>POST &#x2F;admin&#x2F;doctor</div></td>
+           <td class="code"><div>GET &#x2F;doctor&#x2F;:doctor_id</div></td>
          </tr>
          
       </table>

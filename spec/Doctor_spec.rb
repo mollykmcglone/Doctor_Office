@@ -40,4 +40,12 @@ describe 'Doctor' do
       expect(Doctor.find(1)).to(eq([test_doc, test_doc2]))
     end
   end
+
+  describe '.find_by_doctor_id' do
+    it "finds the doctor with a given doctor_id" do
+      test_doc = Doctor.new({first_name: 'Test', last_name: 'Test', doctor_id: nil, specialty_id: 1})
+      test_doc.save
+      expect(Doctor.find_by_doctor_id(test_doc.doctor_id)).to(eq(test_doc))
+    end
+  end
 end
